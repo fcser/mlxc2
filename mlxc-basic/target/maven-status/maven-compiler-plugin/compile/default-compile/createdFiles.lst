@@ -1,0 +1,9 @@
+com\mlxc\basic\constant\ReturnCode.class
+com\mlxc\basic\dto\BaseReturnDto.class
+com\mlxc\basic\service\BaseService.class
+com\mlxc\basic\dto\BaseDto.class
+com\mlxc\basic\query\BaseQuery.class
+com\mlxc\basic\mapper\BaseDAO.class
+com\mlxc\basic\service\impl\BaseServiceImpl.class
+com\mlxc\basic\util\WebUtil.class
+com\mlxc\basic\dto\BaseDO.class

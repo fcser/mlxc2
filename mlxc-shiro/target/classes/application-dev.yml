@@ -1,0 +1,12 @@
+spring:
+  dubbo:
+    application:
+      name: shiro_server
+    protocol:
+      name: dubbo
+      port: 20101
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    server: true
+    consumer:
+      check: false

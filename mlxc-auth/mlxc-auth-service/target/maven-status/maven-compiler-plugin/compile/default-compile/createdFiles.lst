@@ -1,0 +1,5 @@
+com\jxxy\mlxc\auth\service\impl\UserServiceImpl.class
+com\jxxy\mlxc\auth\AuthApplication.class
+com\jxxy\mlxc\auth\controller\handler\WebExceptionHandler.class
+com\jxxy\mlxc\auth\mapper\UserDAO.class
+com\jxxy\mlxc\auth\controller\UserController.class

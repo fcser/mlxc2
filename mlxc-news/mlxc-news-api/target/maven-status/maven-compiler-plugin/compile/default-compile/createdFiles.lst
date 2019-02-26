@@ -1,0 +1,13 @@
+com\jxxy\mlxc\news\api\dto\EntryDto.class
+com\jxxy\mlxc\news\api\query\ActiveQuery.class
+com\jxxy\mlxc\news\api\dto\UserDto.class
+com\jxxy\mlxc\news\api\query\EntryQuery.class
+com\jxxy\mlxc\news\api\model\ActiveDO.class
+com\jxxy\mlxc\news\api\service\NewsService.class
+com\jxxy\mlxc\news\api\dto\ActiveDto.class
+com\jxxy\mlxc\news\api\service\EntryService.class
+com\jxxy\mlxc\news\api\query\NewsQuery.class
+com\jxxy\mlxc\news\api\model\NewsDO.class
+com\jxxy\mlxc\news\api\service\ActiveService.class
+com\jxxy\mlxc\news\api\model\EntryDO.class
+com\jxxy\mlxc\news\api\dto\NewsDto.class

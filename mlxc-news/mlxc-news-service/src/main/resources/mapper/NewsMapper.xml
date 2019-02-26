@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.jxxy.mlxc.news.mapper.NewsDAO">
+ 	<resultMap type="com.jxxy.mlxc.news.api.dto.NewsDto" id="newsMap">
+ 		<result column="id" jdbcType="INTEGER" property="id"/>
+ 		<result column="title" jdbcType="VARCHAR" property="title"/>
+ 		<result column="intro" jdbcType="VARCHAR" property="intro"/>
+ 		<result column="content" jdbcType="VARCHAR" property="content"/>
+ 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+ 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+ 		<result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
+ 		<result column="user_name" jdbcType="VARCHAR" property="createUserName"/>
+ 		<result column="update_user_id" jdbcType="INTEGER" property="updateUserId"/>
+ 		<result column="user_name" jdbcType="VARCHAR" property="updateUserName"/>
+ 		<result column="active_id" jdbcType="INTEGER" property="activeId"/>
+ 		<result column="active_name" jdbcType="VARCHAR" property="activeName"/>
+ 		<result column="grade" jdbcType="INTEGER" property="grade"/>
+ 		<result column="type" jdbcType="VARCHAR" property="type"/>
+ 	</resultMap>
+ 	<insert id="insert" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
+ 		<selectKey resultType="Long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into news(title,intro,content,create_user_id,type) 
+		values
+		(#{title},#{intro},#{content},#{createUserId},#{type})
+ 	</insert>
+ 	<update id="update" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
+ 		update news t set 
+ 		t.update_user_id=#{updateUserId},
+ 		t.update_time=SYSDATE()
+ 		<if test="intro!=null">
+ 			,t.intro=#{intro}
+ 		</if>
+ 		<if test="content!=null">
+ 			,t.content=#{content}
+ 		</if>
+ 		<if test="grade!=null">
+ 			,t.grade=#{grade}
+ 		</if>
+ 		where t.id=#{id}
+ 	</update>
+ 	<update id="insertActiveId" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
+ 		update news t set
+ 		t.active_id=#{activeId}
+ 		where t.id=#{id}
+ 	</update>
+ 	<delete id="delete" parameterType="Long">
+ 		delete from news t where t.id=#{id}
+ 	</delete>
+ 	<delete id="batchDelete" parameterType="List">
+ 		delete from news t where t.id in 
+ 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+ 			#{item}
+ 		</foreach>
+ 	</delete>
+ 	<select id="select" parameterType="Long" resultMap="newsMap">
+ 		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
+ 		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
+ 		t.active_id,b.active_name,t.grade,t.type
+ 		from news t
+ 		left join users a on t.create_user_id=a.id
+ 		left join users c on t.update_user_id=c.id
+ 		left join active b on t.active_id=b.id
+ 		where t.id=#{id}
+ 	</select>
+ 	<select id="find" parameterType="com.jxxy.mlxc.news.api.query.NewsQuery" resultMap="newsMap">
+ 		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
+ 		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
+ 		t.active_id,b.active_name,t.grade,t.type
+ 		from news t
+ 		left join users a on t.create_user_id=a.id
+ 		left join users c on t.update_user_id=c.id
+ 		left join active b on t.active_id=b.id
+ 		where 1=1
+ 		<if test="type!=null">
+ 			AND t.type=#{type}
+ 		</if>
+ 		<if test="createUserId!=null">
+ 			AND t.create_user_id=#{createUserId}
+ 		</if>
+ 	</select>
+ </mapper>

@@ -1,0 +1,14 @@
+com\jxxy\mlxc\news\converter\NewsConverterImpl.class
+com\jxxy\mlxc\news\service\impl\EntryServiceImpl.class
+com\jxxy\mlxc\news\mapper\ActiveDAO.class
+com\jxxy\mlxc\news\service\impl\NewsServiceImpl.class
+com\jxxy\mlxc\news\converter\EntryConverterImpl.class
+com\jxxy\mlxc\news\NewsApplication.class
+com\jxxy\mlxc\news\service\impl\ActiveServiceImpl.class
+com\jxxy\mlxc\news\mapper\NewsDAO.class
+com\jxxy\mlxc\news\converter\ActiveConverterImpl.class
+com\jxxy\mlxc\news\converter\ActiveConverter.class
+com\jxxy\mlxc\news\converter\EntryConverter.class
+com\jxxy\mlxc\news\converter\NewsConverter.class
+com\jxxy\mlxc\news\mapper\EntryDAO.class
+com\jxxy\mlxc\news\controller\NewsController.class
