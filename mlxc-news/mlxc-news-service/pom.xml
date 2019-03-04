@@ -22,34 +22,6 @@
 			<artifactId>mlxc-news-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- 引入dubbo的依赖 -->
-		<dependency>
-			<groupId>com.alibaba.spring.boot</groupId>
-			<artifactId>dubbo-spring-boot-starter</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		<!-- <dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-log4j12</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
-		<dependency>
-			<groupId>com.101tec</groupId>
-			<artifactId>zkclient</artifactId>
-			<version>0.8</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-log4j12</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- dubbo依赖引入结束 -->
 	</dependencies>
 	<build>
 		<plugins>

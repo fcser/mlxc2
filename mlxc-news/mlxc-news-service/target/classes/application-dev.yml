@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 pagehelper:
   helper-dialect: mysql
   reasonable: true
@@ -24,10 +24,10 @@ spring:
       test-while-idle: false
   dubbo:
     application:
-      name: dubbo_server
+      name: news_server
     protocol:
       name: dubbo
-      port: 20100
+      port: 20101
     registry:
       address: zookeeper://127.0.0.1:2181
     server: true
