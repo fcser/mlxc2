@@ -21,7 +21,6 @@ import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
  *
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class,scanBasePackages="com.jxxy.mlxc.news")
-@EnableAutoConfiguration
 @MapperScan(
 		basePackages="com.jxxy.mlxc.news.mapper",
 		sqlSessionFactoryRef="sqlSessionFactory")

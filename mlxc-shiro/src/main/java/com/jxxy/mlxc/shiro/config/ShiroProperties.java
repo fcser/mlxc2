@@ -33,5 +33,5 @@ public class ShiroProperties {
 	//private AuthDefaultAdminProperties developAdmin;
 	private String[] noFilter= {};
 	private String[] authFilter= {};
-	
+
 }
