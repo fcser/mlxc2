@@ -36,4 +36,8 @@ public class RecordsQuery extends BaseQuery {
 	 * 用户id
 	 */
 	private Long userId;
+	/**
+	 * 产品id
+	 */
+	private Long productId;
 }

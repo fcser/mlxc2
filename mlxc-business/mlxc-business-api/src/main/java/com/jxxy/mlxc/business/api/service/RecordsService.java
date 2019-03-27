@@ -5,6 +5,7 @@ package com.jxxy.mlxc.business.api.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.business.api.dto.PurchaseRecordDto;
 import com.jxxy.mlxc.business.api.dto.RecordsDto;
 import com.jxxy.mlxc.business.api.query.RecordsQuery;
@@ -25,17 +26,18 @@ public interface RecordsService {
 	 * @Param:
 	 * @Return:List<RecordsDto>
 	 */
-	List<RecordsDto> listRecords(RecordsQuery query);
+	PageInfo<RecordsDto> listRecords(RecordsQuery query);
 	/**
 	 * 抢单服务
 	 * @Param:
-	 * @Return:void
+	 * @Return:boolean
 	 */
-	void purchase(PurchaseRecordDto dto);
+	boolean purchase(PurchaseRecordDto dto);
 	/**
 	 * 展示我的订单
 	 * @Param:
 	 * @Return:List<RecordsDto>
 	 */
-	List<RecordsDto> showMyRecords(RecordsQuery query);
+	PageInfo<RecordsDto> showMyRecords(RecordsQuery query);
+
 }

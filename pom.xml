@@ -132,5 +132,6 @@
 		<module>mlxc-article</module>
     <module>mlxc-shiro</module>
     <module>mlxc-web</module>
+		<module>websocket</module>
 	</modules>
 </project>

@@ -4,11 +4,86 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.jxxy.mlxc.business.mapper.ProductDao">
  	<resultMap type="com.jxxy.mlxc.news.api.dto.ProductDto" id="ProductMap">
- 		<result column="id" jdbcType="INTEGER" property="id"/>
+ 		<result column="id" jdbcType="BIGINT" property="id"/>
  		<result column="name" jdbcType="VARCHAR" property="name"/>
  		<result column="decription" jdbcType="VARCHAR" property="decription"/>
  		<result column="stock" jdbcType="INTEGER" property="stock"/>
+		<result column="price" jdbcType="DOUBLE" property="price"/>
  		<result column="discount" jdbcType="INTEGER" property="discount"/>
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="version" jdbcType="INTEGER" property="version"/>
  	</resultMap>
- 	
+	<sql id="baseProduct">
+		t.id,
+		t.name,
+		t.decription,
+		t.price,
+		t.stock,
+		t.discount,
+		t.create_time,
+		t.update_time
+	</sql>
+ 	<insert id="insert" parameterType="com.jxxy.mlxc.business.api.dto.ProductDto" useGeneratedKeys="true" keyProperty="id">
+		insert into product(name,decription,stock,price,discount)
+		values (#{name},#{decription},#{stock},#{price},#{discount})
+	</insert>
+
+	<update id="update" parameterType="com.jxxy.mlxc.business.api.dto.ProductDto">
+		update product
+		set
+		<trim suffixOverrides=",">
+			<if test="decription != null and decription != ''">
+				decription = #{decription, jdbcType=VARCHAR},
+			</if>
+			<if test="stock != null">
+				stock = #{stock},
+			</if>
+			<if test="price != null">
+				price=#{price}
+			</if>
+			<if test="discount != null">
+				dicount=#{discount}
+			</if>
+			update_time = NOW()
+		</trim>
+		WHERE
+		id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Long">
+		delete from product where id=#{id}
+	</delete>
+
+	<delete id="batchDelete" parameterType="List">
+		delete from product where id in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="listProduct" parameterType="com.jxxy.mlxc.business.api.query.ProductQuery" resultType="ProductMap">
+		select
+		<include refid="baseProduct"/>
+		from product t
+		where 1=1
+		<if test="name!=null and name!=''">
+			and t.name like concat('%',#{name},'%')
+	</if>
+		order by t.create_time desc
+	</select>
+
+	<select id="getProduct" parameterType="Long" resultType="ProductMap">
+		select
+		t.version,
+		<include refid="baseProduct"/>
+		from product t
+		where t.id=#{id}
+	</select>
+
+	<!-- 减少库存,乐观锁-->
+	<update id="decreaseProduct">
+		update product set stock=stock-#{count},version=version+1
+		where id=#{id} and version=#{version}
+	</update>
  </mapper>

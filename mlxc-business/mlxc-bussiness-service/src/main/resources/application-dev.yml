@@ -48,4 +48,6 @@ spring:
   cache:
     type: REDIS
     cache-names: redisCache
-
+mlxc:
+  #不进行用户下单前检查
+  isVerifyUser: false

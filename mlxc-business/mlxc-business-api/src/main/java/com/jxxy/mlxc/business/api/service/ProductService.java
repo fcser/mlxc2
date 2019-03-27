@@ -55,4 +55,11 @@ public interface ProductService {
 	 * @Return:ProductDto
 	 */
 	ProductDto showProduct();
+
+	/**
+	 * 通过id获取产品信息
+	 * @param id
+	 * @return
+	 */
+	ProductDto getProductById(Long id);
 }

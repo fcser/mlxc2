@@ -47,5 +47,6 @@ public class ProductDto extends BaseDto{
 	 * 订单量
 	 */
 	private Integer num;
-	
+
+	private Integer version;
 }
