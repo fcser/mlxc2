@@ -18,8 +18,8 @@ public class PriceTest {
 
 	public static void main(String[] args) {
 		ProductDto dto=new ProductDto();
-		dto.setOriginalPrice(9.0);
+		//dto.setOriginalPrice(9.0);
 		dto.setDiscount(7);
-		System.out.println("现价："+dto.getNowPrice());
+		//System.out.println("现价："+dto.getNowPrice());
 	}
 }
