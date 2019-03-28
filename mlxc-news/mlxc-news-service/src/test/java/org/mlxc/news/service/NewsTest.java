@@ -3,6 +3,8 @@
  */
 package org.mlxc.news.service;
 
+import com.github.pagehelper.PageInfo;
+import com.jxxy.mlxc.news.api.query.NewsQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +38,18 @@ public class NewsTest {
 	private NewsService newsService;
 	@Test
 	public void testAdd() {
-		NewsDto dto=new NewsDto();
+		/*NewsDto dto=new NewsDto();
 		dto.setId(10L);
 		dto.setTitle("单元测试news");
 		dto.setIntro("呵呵呵呵");
 		dto.setContent("asdfasdf和压缩的哈市的风格很好看");
 		NewsDO newsDO=newsConverter.fromNewsDto(dto);
-		System.out.println(newsDO.toString()+"  id:"+newsDO.getId());
+		System.out.println(newsDO.toString()+"  id:"+newsDO.getId());*/
 		//System.out.println("添加成功："+newsService.insert(dto));
-		/*NewsQuery query=new NewsQuery();
+		NewsQuery query=new NewsQuery();
 		query.setPageNum(1);
 		query.setPageSize(3);
 		PageInfo<NewsDto> dto=newsService.findByPage(query);
-		System.out.println(dto.toString());*/
+		System.out.println(dto.toString());
 	}
 }

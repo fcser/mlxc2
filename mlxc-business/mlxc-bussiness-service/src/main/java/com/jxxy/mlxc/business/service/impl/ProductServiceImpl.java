@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @Project:mlxc-parent
  * @Class:ProductServiceImpl
- * @author:zhouyangmin@myhexin.com
+ * @author:zhouyangmin
  * @CreateTime:2019年03月26日17:07
  * @Description:商品服务类
  * @Version: 1.0.0

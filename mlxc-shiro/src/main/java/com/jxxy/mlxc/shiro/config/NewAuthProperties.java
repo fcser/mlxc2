@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * @Project:mlxc-parent
  * @Class:NewAuthProperties
- * @author:zhouyangmin@myhexin.com
+ * @author:zhouyangmin
  * @CreateTime:2019年03月28日14:35
  * @Description: 新配置文件，解决propertiea加载比bean创建慢的问题
  * @Version: 1.0.0

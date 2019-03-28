@@ -8,14 +8,12 @@ import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @Project:mlxc-parent
  * @Class:RolesFilter
- * @author:zhouyangmin@myhexin.com
+ * @author:zhouyangmin
  * @CreateTime:2019年03月28日16:20
  * @Description:角色过滤器
  * @Version: 1.0.0

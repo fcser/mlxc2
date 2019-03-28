@@ -1,5 +1,0 @@
-com\jxxy\mlxc\auth\api\model\UserDO.class
-com\jxxy\mlxc\auth\api\service\UserService.class
-com\jxxy\mlxc\auth\api\query\UserQuery.class
-com\jxxy\mlxc\auth\api\model\RoleDO.class
-com\jxxy\mlxc\auth\api\dto\UserDto.class

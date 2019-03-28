@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @Project:mlxc-parent
  * @Class:PurchaseConfig
- * @author:zhouyangmin@myhexin.com
+ * @author:zhouyangmin
  * @CreateTime:2019年03月27日10:47
  * @Description:抢单业务配置
  * @Version: 1.0.0

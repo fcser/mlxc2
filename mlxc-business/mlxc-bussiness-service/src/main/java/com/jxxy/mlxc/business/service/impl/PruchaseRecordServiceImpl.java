@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @Project:mlxc-parent
  * @Class:PruchaseRecordServiceImpl
- * @author:zhouyangmin@myhexin.com
+ * @author:zhouyangmin
  * @CreateTime:2019年03月26日21:50
  * @Description:订单业务
  * @Version: 1.0.0
