@@ -1,5 +1,7 @@
 package com.jxxy.mlxc.web.auth.controller;
 
+import org.springframework.stereotype.Controller;
+
 /**
  * @Project:mlxc-parent
  * @Class:NewsController
@@ -8,6 +10,6 @@ package com.jxxy.mlxc.web.auth.controller;
  * @Description:
  * @Version: 1.0.0
  */
-
+@Controller
 public class NewsController {
 }
