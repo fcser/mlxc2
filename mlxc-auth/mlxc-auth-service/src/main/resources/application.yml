@@ -22,18 +22,12 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: false
+  application:
+    name: auth-server
   dubbo:
-    application:
-      name: auth_server
-    protocol:
-      name: dubbo
-      port: 20102
+    server: true
     registry:
       address: zookeeper://127.0.0.1:2181
-    server: true
-    scan: com.jxxy.mlxc.auth.service.impl
-    consumer:
-      check: false
   redis:
     jedis:
       pool:

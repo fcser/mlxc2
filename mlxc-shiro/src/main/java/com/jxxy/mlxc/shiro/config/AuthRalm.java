@@ -3,18 +3,15 @@
  */
 package com.jxxy.mlxc.shiro.config;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.jxxy.mlxc.auth.api.dto.UserDto;
 import com.jxxy.mlxc.auth.api.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
 
 /**
  * @Project:mlxc-shiro
@@ -25,16 +22,23 @@ import com.jxxy.mlxc.auth.api.service.UserService;
  * @Version: 1.0.0 
  *
  */
+@Slf4j
 public class AuthRalm extends AuthorizingRealm{
 
-	@Autowired
+	@Reference(version="1.0.0",url="dubbo://127.0.0.1:20880")
 	private UserService userService;
 	/**
 	 * 授权
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		return null;
+		UserDto user=userService.getUserByPhone(principals.getPrimaryPrincipal().toString());
+		log.info("AuthorizationInfo user:{}",user==null?"NULL USER":user.toString());
+		SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
+		if(null!=user){
+			simpleAuthorizationInfo.addRole(user.getRoleName());
+		}
+		return simpleAuthorizationInfo;
 	}
 
 	/**
@@ -43,7 +47,8 @@ public class AuthRalm extends AuthorizingRealm{
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken upToken =(UsernamePasswordToken)token;
-		UserDto user=userService.getUserByPhone(upToken.getUsername());
+		String userName=upToken.getUsername();
+		UserDto user=userService.getUserByPhone(userName);
 		if(null!=user) {
 			return new SimpleAuthenticationInfo(user.getPhone(),user.getPassword(),getName());
 		}

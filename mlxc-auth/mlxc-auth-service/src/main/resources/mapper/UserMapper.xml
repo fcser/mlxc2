@@ -12,14 +12,17 @@
 		<result column="sex" jdbcType="INTEGER" property="sex"/>
 		<result column="age" jdbcType="INTEGER" property="age"/>
 		<result column="signature" jdbcType="VARCHAR" property="signature"/>
-		<result column="roles" jdbcType="INTEGER" property="role"/>
+		<result column="role" jdbcType="INTEGER" property="role"/>
+		<result column="role_name" jdbcType="VARCHAR" property="roleName"/>
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
 	</resultMap>
 	<!-- <cache type="cn.myhexin.hwfour.redis.RedisCache"/> -->
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.jxxy.mlxc.auth.api.model.UserDO">
-	    insert into users(phone,password,user_name,sex,age,signature,roles) values(#{phone},#{password},#{userName},#{sex},#{age},#{signature},#{role})
+	    insert into users(phone,password,user_name,sex,age,signature,role) values(#{phone},#{password},#{userName},#{sex},#{age},#{signature},#{role})
 	</insert>
-	
+	<sql id="baseUser">
+
+	</sql>
 	<update id="update" parameterType="com.jxxy.mlxc.auth.api.model.UserDO">
 	    update users set 
 	    <if test="userName!=null and userName!=''">
@@ -40,8 +43,8 @@
 	    <if test="signature!=null and signature!=''">
 	    	signature=#{signature),
 	    </if>
-	    <if test="role!=null and role!=''">
-	    	roles=#{role} 
+	    <if test="role!=null">
+	    	role=#{role}
 	    </if> where id=#{id}
 	</update>
 	
@@ -50,7 +53,10 @@
 	</delete> 
 	<!-- 用于登录 -->
 	<select id="getUserByPhone" resultMap="userMap" parameterType="String">
-		select * from users where phone=#{phone}
+		select t.id,t.phone,t.password,t.user_name,u.role_name
+		from users t
+		left join role u on t.role=u.id
+		where phone=#{phone}
 	</select>
 	
 </mapper>

@@ -29,6 +29,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto> implements UserSer
 
 	@Autowired
 	private UserDAO userDAO;
+
 	@Override
 	public UserDto getUserByPhone(String phone) {
 		return userDAO.getUserByPhone(phone);

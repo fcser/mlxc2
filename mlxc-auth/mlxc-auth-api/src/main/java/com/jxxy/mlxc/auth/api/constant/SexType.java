@@ -10,9 +10,9 @@ package com.jxxy.mlxc.auth.api.constant;
  */
 public enum SexType {
     /** 男 */
-    MALE(1,"男"),
+    MALE(0,"男"),
     /** 外表 */
-    FEMALE(2,"EXTERNAL_TABLE");
+    FEMALE(1,"女");
 
     private Integer type;
     private String sex;

@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.UserFilter;
 
 import com.mlxc.basic.constant.ReturnCode;
@@ -21,6 +22,7 @@ import com.mlxc.basic.util.JsonUtil;
  * @description: 处理session超时及未登录异常
  * @version: v1.0
  */
+@Slf4j
 public class SessionFilter extends UserFilter {
 
 	
@@ -30,6 +32,7 @@ public class SessionFilter extends UserFilter {
 		BaseReturnDto<Void> brd=new BaseReturnDto<>(ReturnCode.FAIL_TIME_OUT.getCode(),"please login again!");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("application/json");
+		log.info("please login again");
 		resp.getWriter().print(JsonUtil.bean2json(brd));
 		return false;
 	}

@@ -32,7 +32,7 @@ public class MySessionManager extends DefaultWebSessionManager {
 		public MySessionManager() {
 			super();
 			//sessionid的默认失效时间是30分钟，我们可以更改
-			//setGlobalSessionTimeout(DEFAULT_GLOBAL_SESSION_TIMEOUT/3);
+			//setGlobalSessionTimeout();
 		}
 		
 		/**

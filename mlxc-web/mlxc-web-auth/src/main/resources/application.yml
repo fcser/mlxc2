@@ -22,16 +22,18 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: false
-  dubbo:
-    application:
-      name: web_server
-    protocol:
-      name: dubbo
-      port: 20100
-    registry:
-      address: zookeeper://127.0.0.1:2181
-    consumer:
-      check: false
+  application:
+    name: web-server
+  #dubbo:
+    #application:
+      #name: web_server
+    #protocol:
+      #name: dubbo
+      #port: 20100
+    #registry:
+      #address: zookeeper://127.0.0.1:2181
+    #consumer:
+      #check: false
   redis:
     jedis:
       pool:
@@ -46,4 +48,13 @@ spring:
   cache:
     type: REDIS
     cache-names: redisCache
-
+mlxc:
+  shiro:
+    sessionTime: 1800000
+    noFilter: /mlxc/**
+    authFilter: /mlxc/desk/**
+    adminFilter: /mlxc/manage/**
+    businessFilter: /mlxc/manage/business/**
+    noLoginUrl: /mlxc/noLogin.do
+    noRoleUrl: /mlxc/noRoles.do
+    isOpen: true
