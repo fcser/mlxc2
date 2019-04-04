@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxxy.mlxc.news.mapper.CommentDAO">
+    <resultMap id="commentDependencyMap" type="com.jxxy.mlxc.news.api.dto.CommentDependencyDto">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result property="goodNum" jdbcType="INTEGER" column="good_num"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <collection column="id" property="childComments" select="showChildComments"/>
+    </resultMap>
+    <resultMap id="commentMap" type="com.jxxy.mlxc.news.api.dto.MyCommentsDto">
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result property="newsId" jdbcType="INTEGER" column="news_id"/>
+        <result property="newsTitle" jdbcType="VARCHAR" column="new_title"/>
+        <result property="id" jdbcType="INTEGER" column="id"/>
+    </resultMap>
+    <insert id="insert" parameterType="commentDO">
+        insert into comment(news_id,content,comment_user_id) values (#{newsId},#{content},#{commentUserId})
+    </insert>
+    <insert id="insertDependency" parameterType="commentDependDO">
+        insert into comment_depend(comment_id,father_comment_id) values (#{commentId},#{fatherCommentId})
+    </insert>
+    <update id="updateGoods">
+        update comment set good_num=good_num+1
+    </update>
+    <select id="countComments" resultType="java.lang.Integer" parameterType="Integer">
+        select count(t.id)
+        from comment t
+        left join comment_depend c on c.comment_id=t.id
+        where t.news_id=#{newsId}
+        and c.father_comment_id is null
+    </select>
+    <!--一级留言-->
+    <select id="getComments" resultMap="commentDependencyMap" parameterType="Integer">
+        select t.id,t.content,u.user_name,t.good_num,t.create_time
+        from comment t
+        left join users u on u.id=t.comment_user_id
+        left join comment_depend c on c.comment_id=t.id
+        where c.father_comment_id is null
+        and t.news_id=#{newsId}
+        order by t.good_num desc
+    </select>
+    <select id="showChildComments" resultMap="commentDependencyMap">
+        select t.id,t.content,u.user_name,t.good_num,t.create_time
+        from comment t
+        left join users u on u.id=t.comment_user_id
+        left join comment_depend c on c.comment_id=t.id
+        where c.father_comment_id=#{commentId}
+        order by t.good_num desc
+    </select>
+    <select id="getMyComments" resultMap="commentMap" parameterType="commentQuery">
+
+    </select>
+
+</mapper>
