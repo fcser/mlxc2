@@ -125,8 +125,8 @@ public class AuthAutoConfiguration {
     	shiro.setFilterChainDefinitionMap(chainMap);
         return shiro;
     }
-    @Bean
+    /*@Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
         return new LifecycleBeanPostProcessor();
-    }
+    }*/
 }

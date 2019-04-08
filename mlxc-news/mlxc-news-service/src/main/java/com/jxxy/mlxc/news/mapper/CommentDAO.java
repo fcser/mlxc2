@@ -5,6 +5,7 @@ import com.jxxy.mlxc.news.api.dto.MyCommentsDto;
 import com.jxxy.mlxc.news.api.model.CommentDO;
 import com.jxxy.mlxc.news.api.model.CommentDependDO;
 import com.jxxy.mlxc.news.api.query.CommentQuery;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * @Description:留言dao层
  * @Version: 1.0.0
  */
-
+@Mapper
 public interface CommentDAO {
     /**
      * 插入留言内容
@@ -32,9 +33,23 @@ public interface CommentDAO {
     void insertDependency(CommentDependDO commentDependDO);
 
     /**
+     * 插入点赞信息
+     * @param commentId
+     * @param userId
+     */
+    void insetGood(@Param("commentId")Long commentId,@Param("userId") Long userId);
+
+    /**
+     * 查看该评论我是否点赞
+     * @param commentId
+     * @param userId
+     * @return
+     */
+    int getMyLike(@Param("commentId")Long commentId,@Param("userId") Long userId);
+    /**
      * 修改点赞量
      */
-    void updateGoods();
+    void updateGoods(Long id);
     /**
      * 查看一级评论总数
      * @return
@@ -55,9 +70,11 @@ public interface CommentDAO {
     List<CommentDependencyDto> showChildComments(@Param("commentId") Long id);
 
     /**
-     * 查询给我的新闻评论（逻辑分，给文章作者）
+     * 查询给我的新闻评论（逻辑分，给文章作者）,作者回复如何查看
      * @param commentQuery
      * @return
      */
     List<MyCommentsDto> getMyComments(CommentQuery commentQuery);
+
+
 }

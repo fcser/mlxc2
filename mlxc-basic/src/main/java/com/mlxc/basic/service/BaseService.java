@@ -25,7 +25,7 @@ public interface BaseService<T extends BaseDto> {
 	 * @Param:
 	 * @Return:T
 	 */
-	Long insert(BaseDO dto);
+	Long insert(T dto);
 	/**
 	 * 
 	 * @Param:
@@ -43,7 +43,7 @@ public interface BaseService<T extends BaseDto> {
 	 * @Param:
 	 * @Return:int
 	 */
-	int update(BaseDO dto);
+	int update(T dto);
 	/**
 	 * 
 	 * @Param:

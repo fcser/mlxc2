@@ -9,16 +9,18 @@ import org.apache.ibatis.type.Alias;
  * @Class:CommentQuery
  * @author:zhouyangmin
  * @CreateTime:2019年04月04日15:56
- * @Description:评论查看（主要查看与我相关的评论），userId可以根据shiro获取
+ * @Description:评论查看（主要查看与我相关的评论），userId可以根据shiro获取,
  * @Version: 1.0.0
  */
 @Data
 @Alias("commentQuery")
 public class CommentQuery extends BaseQuery {
+    private Long createUserId;
+    /**以下条件是文章作者获取留言逻辑*/
     /**需要新闻模块，提供给前端一个获取我发布新闻的接口*/
     private Long newsId;
     /**模糊查找*/
-    private String NewsTitle;
+    private String newsTitle;
     /**模糊查找*/
     private String userName;
     /**以上条件是文章作者获取留言逻辑*/

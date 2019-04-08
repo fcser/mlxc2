@@ -6,6 +6,7 @@ package com.jxxy.mlxc.news.api.service;
 import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.news.api.dto.ActiveDto;
 import com.jxxy.mlxc.news.api.dto.EntryDto;
+import com.jxxy.mlxc.news.api.dto.EntryUserDto;
 import com.jxxy.mlxc.news.api.dto.UserDto;
 import com.jxxy.mlxc.news.api.query.EntryQuery;
 
@@ -26,6 +27,14 @@ public interface EntryService{
 	 * @Return:Long 报名表id
 	 */
 	Long insert(EntryDto dto);
+
+	/**
+	 * 查看用户是否已经报名
+	 * @param activeId
+	 * @param userId
+	 * @return true已经报名，false未报名
+	 */
+	boolean isEntry(Long activeId,Long userId);
 	/**
 	 * 取消报名
 	 * @Param:
@@ -43,5 +52,5 @@ public interface EntryService{
 	 * @Param:
 	 * @Return:UserDto
 	 */
-	PageInfo<UserDto> findActiveUsers(EntryQuery query);
+	PageInfo<EntryUserDto> findActiveUsers(EntryQuery query);
 }

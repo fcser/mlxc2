@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.mlxc.basic.dto.BaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -55,7 +56,7 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public Long insert(NewsDto news) {
 		NewsDO newsDO=newsConverter.fromNewsDto(news);
-		newsDAO.insert(newsDO);
+		newsDAO.insert(news);
 		//插入redis中
 		NewsTrumpTools tools=new NewsTrumpTools(redis);
 		tools.postNews(newsDO);
@@ -109,14 +110,16 @@ public class NewsServiceImpl implements NewsService {
 		return newsDAO.batchDelete(ids);
 	}
 	@Override
-	public int update(BaseDO dto) {
+	public int update(NewsDto dto) {
 		return newsDAO.update(dto);
 	}
 	@Override
 	public NewsDto select(Long userId,Long newsId) {
-		//每一次查询新闻，就相当于给他打了一次分，但一个用户只能打一次分
-		NewsTrumpTools tools=new NewsTrumpTools(redis);
-		tools.newsVote(userId.toString(), newsId.toString());
+		if(null!=userId&&userId!=0) {
+			//每一次查询新闻，就相当于给他打了一次分，但一个用户只能打一次分
+			NewsTrumpTools tools = new NewsTrumpTools(redis);
+			tools.newsVote(userId.toString(), newsId.toString());
+		}
 		return newsDAO.select(newsId);
 	}
 

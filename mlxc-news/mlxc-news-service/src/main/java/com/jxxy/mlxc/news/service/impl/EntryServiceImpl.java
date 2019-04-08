@@ -5,6 +5,7 @@ package com.jxxy.mlxc.news.service.impl;
 
 import java.util.List;
 
+import com.jxxy.mlxc.news.api.dto.EntryUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,9 +61,14 @@ public class EntryServiceImpl implements EntryService {
 	}
 
 	@Override
-	public PageInfo<UserDto> findActiveUsers(EntryQuery query) {
-		return null;
+	public PageInfo<EntryUserDto> findActiveUsers(EntryQuery query) {
+		PageHelper.startPage(query.getPageNum(), query.getPageSize());
+		List<EntryUserDto> list=entryDAO.findActiveUsers(query);
+		return new PageInfo<>(list);
 	}
-
+	@Override
+	public boolean isEntry(Long activeId,Long userId){
+		return entryDAO.isEntry(activeId,userId)>0?true:false;
+	}
 	
 }

@@ -3,7 +3,9 @@
  */
 package com.jxxy.mlxc.news.api.service;
 
+import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.news.api.dto.ActiveDto;
+import com.jxxy.mlxc.news.api.query.ActiveQuery;
 import com.mlxc.basic.service.BaseService;
 
 /**
@@ -15,7 +17,7 @@ import com.mlxc.basic.service.BaseService;
  * @Version: 1.0.0 
  *
  */
-public interface ActiveService extends BaseService<ActiveDto> {
+public interface ActiveService{
 
 	/**
 	 * 插入活动
@@ -29,5 +31,11 @@ public interface ActiveService extends BaseService<ActiveDto> {
 	 * @Return:ActiveDto
 	 */
 	ActiveDto selectByNewsId(Long newsId);
-	
+
+	/**
+	 * 查询活动列表
+	 * @param activeQuery
+	 * @return
+	 */
+	PageInfo<ActiveDto> findActives(ActiveQuery activeQuery);
 }

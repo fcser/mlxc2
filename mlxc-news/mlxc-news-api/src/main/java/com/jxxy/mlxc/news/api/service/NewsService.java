@@ -10,6 +10,7 @@ import com.jxxy.mlxc.news.api.dto.NewsDto;
 import com.jxxy.mlxc.news.api.model.NewsDO;
 import com.jxxy.mlxc.news.api.query.NewsQuery;
 import com.mlxc.basic.dto.BaseDO;
+import com.mlxc.basic.dto.BaseDto;
 
 /**
  * @Project:mlxc-news-api
@@ -29,6 +30,7 @@ public interface NewsService {
 	 */
 	Long insertActiveId(NewsDO newsDO);
 	/**
+	 * 插入新闻
 	 * @Param:
 	 * @Return:Long
 	 */
@@ -40,25 +42,25 @@ public interface NewsService {
 	 */
 	PageInfo<NewsDto> findByPage(NewsQuery query);
 	/**
-	 * 
+	 * 删除新闻
 	 * @Param:
 	 * @Return:int
 	 */
 	int delete(Long id);
 	/**
-	 * 
+	 * 批量删除
 	 * @Param:
 	 * @Return:int
 	 */
 	int batchDelete(List<Long> ids);
 	/**
-	 * 
+	 * 更新新闻内容
 	 * @Param:
 	 * @Return:int
 	 */
-	int update(BaseDO dto);
+	int update(NewsDto dto);
 	/**
-	 * 
+	 * 我查看新闻详情
 	 * @Param:
 	 * @Return:T
 	 */

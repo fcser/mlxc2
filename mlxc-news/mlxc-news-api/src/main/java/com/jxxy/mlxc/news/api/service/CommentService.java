@@ -26,14 +26,23 @@ public interface CommentService {
     void insert(CommentDto commentDto);
 
     /**
-     * 点赞
+     * 查看是否已经给过赞了
+     * @param id
+     * @param userId
+     * @return true已点赞，false未点赞
      */
-    void giveALike();
+    boolean isGiveLike(Long id,Long userId);
+    /**
+     * 点赞
+     * @param id，评论id
+     * @param userId
+     */
+    void giveALike(Long id,Long userId);
     /**
      * 查询评论总数
      * @return
      */
-    Integer countComments();
+    Integer countComments(Long newsId);
 
     /**
      * 查询评论留言，精选100条（先根据点赞数，若点赞数相同，则根据时间排序）
@@ -48,4 +57,5 @@ public interface CommentService {
      * @return
      */
     PageInfo<MyCommentsDto> getMyComments(CommentQuery commentQuery);
+
 }

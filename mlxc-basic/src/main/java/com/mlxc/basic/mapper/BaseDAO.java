@@ -24,7 +24,7 @@ public interface BaseDAO<T extends BaseDto> {
 	 * @Param:
 	 * @Return:int
 	 */
-	int insert(BaseDO dto);
+	int insert(T dto);
 	/**
 	 * 
 	 * @Param:
@@ -42,7 +42,7 @@ public interface BaseDAO<T extends BaseDto> {
 	 * @Param:
 	 * @Return:int
 	 */
-	int update(BaseDO dto);
+	int update(T dto);
 	/**
 	 * 
 	 * @Param:

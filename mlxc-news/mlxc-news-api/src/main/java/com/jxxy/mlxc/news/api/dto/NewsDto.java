@@ -40,9 +40,18 @@ public class NewsDto extends BaseDto {
 	private Long activeId;
 	private String activeName;
 	/**
-	 * 评分
+	 * 点赞数量
 	 */
 	private Long grade;
-	private String type;
-	
+	/**新闻或文章*/
+	private Integer type;
+	/**吃住行玩*/
+	private Integer newsType;
+	/**
+	 * 审核结果
+	 */
+	private Integer auditFlag;
+	private Integer delFlag;
+	/**附件地址*/
+	private String filePath;
 }

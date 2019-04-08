@@ -82,7 +82,6 @@ public class LoginController {
 				brd=new BaseReturnDto<>(ReturnCode.FAIL_LOGIN.getCode(),"登录失败，用户被锁定");
 			} catch (AuthenticationException e) {
 				brd=new BaseReturnDto<>(ReturnCode.FAIL_LOGIN.getCode(),"登录失败，未知原因");
-
 			}
 		}else {
 			brd=new BaseReturnDto<>(ReturnCode.FAIL_LOGIN.getCode(),"用户已登录");

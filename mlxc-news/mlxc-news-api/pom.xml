@@ -19,5 +19,10 @@
 			<artifactId>mlxc-basic</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+        <dependency>
+            <groupId>com.jxxy</groupId>
+            <artifactId>mlxc-auth-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 </project>

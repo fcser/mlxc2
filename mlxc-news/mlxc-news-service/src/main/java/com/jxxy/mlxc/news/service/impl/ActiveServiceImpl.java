@@ -3,6 +3,9 @@
  */
 package com.jxxy.mlxc.news.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.jxxy.mlxc.news.api.query.ActiveQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,8 @@ import com.jxxy.mlxc.news.converter.ActiveConverter;
 import com.jxxy.mlxc.news.mapper.ActiveDAO;
 import com.mlxc.basic.service.impl.BaseServiceImpl;
 
+import java.util.List;
+
 /**
  * @Project:mlxc-news-service
  * @Class:ActiveServiceImpl.java
@@ -29,30 +34,34 @@ import com.mlxc.basic.service.impl.BaseServiceImpl;
 @Service(version="1.0.0",interfaceClass=ActiveService.class)
 @Component
 @Transactional(rollbackFor=Exception.class)
-public class ActiveServiceImpl extends BaseServiceImpl<ActiveDto> implements ActiveService {
+public class ActiveServiceImpl implements ActiveService{
 
 	@Autowired
 	private NewsService newsService;
 	@Autowired
 	private ActiveDAO activeDAO;
 
-	@Autowired
-	private ActiveConverter activeConverter;
 	@Override
 	public Long insert(ActiveDto dto) {
-		ActiveDO DO=activeConverter.fromActiveDto(dto);
-		activeDAO.insert(DO);
+		activeDAO.insert(dto);
 		long newsId=dto.getNewsId();
 		NewsDO newsDO=new NewsDO();
-		newsDO.setActiveId(DO.getId());
+		newsDO.setActiveId(dto.getId());
 		newsDO.setId(newsId);
 		newsService.insertActiveId(newsDO);
-		return DO.getId();
+		return dto.getId();
 	}
 
 	@Override
 	public ActiveDto selectByNewsId(Long newsId) {
 		return activeDAO.selectByNewsId(newsId);
+	}
+
+	@Override
+	public PageInfo<ActiveDto> findActives(ActiveQuery activeQuery) {
+		PageHelper.startPage(activeQuery.getPageNum(), activeQuery.getPageSize());
+		List<ActiveDto> list=activeDAO.find(activeQuery);
+		return new PageInfo<>(list);
 	}
 
 }

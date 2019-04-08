@@ -25,8 +25,16 @@
     <insert id="insertDependency" parameterType="commentDependDO">
         insert into comment_depend(comment_id,father_comment_id) values (#{commentId},#{fatherCommentId})
     </insert>
+    <insert id="insetGood">
+        insert into comment_good(comment_id,user_id) values (#{commentId},#{userId})
+    </insert>
+    <select id="getMyLike" resultType="java.lang.Integer">
+        select count(t.id) from comment_good t where t.comment_id=#{commentId} and t.user_id=#{userId}
+    </select>
     <update id="updateGoods">
-        update comment set good_num=good_num+1
+        update comment
+        set good_num=good_num+1
+        where id=#{id}
     </update>
     <select id="countComments" resultType="java.lang.Integer" parameterType="Integer">
         select count(t.id)
@@ -52,9 +60,27 @@
         left join comment_depend c on c.comment_id=t.id
         where c.father_comment_id=#{commentId}
         order by t.good_num desc
+        LIMIT 1,100
     </select>
     <select id="getMyComments" resultMap="commentMap" parameterType="commentQuery">
-
+        select distinct t.news_id,n.title as new_title,t.id,t.content,t.create_time,u.user_name
+        from comment t
+        left join users u on u.id=t.comment_user_id
+        left join news n on n.id=t.news_id
+        /**下面两句是获取作者回复*/
+        left join comment_depend d on t.id=d.comment_id
+        where d.father_comment_id in (select a.id from comment a where a.comment_user_id=#{userId}
+        and n.create_user_id=#{createUserId}
+        <if test="newsId!=null and newsId!=0">
+            and  n.id=#{newsId}
+        </if>
+        <if test="newsTitle!=null and newsTitle!=''">
+            and n.title LIKE CONCAT('%', #{newsTitle}, '%')
+        </if>
+        <if test="userName!=null and userName!=''">
+            and u.user_name LIKE CONTENT('%',#{userName},'%')
+        </if>
+        order by t.create_time desc
     </select>
 
 </mapper>

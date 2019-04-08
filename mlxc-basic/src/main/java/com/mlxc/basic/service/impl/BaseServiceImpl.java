@@ -31,7 +31,7 @@ public class BaseServiceImpl<T extends BaseDto> implements BaseService<T> {
 	private BaseDAO<T> baseDao;
 	
 	@Override
-	public Long insert(BaseDO dto) {
+	public Long insert(T dto) {
 		baseDao.insert(dto);
 		return dto.getId();
 	}
@@ -49,7 +49,7 @@ public class BaseServiceImpl<T extends BaseDto> implements BaseService<T> {
 
 	
 	@Override
-	public int update(BaseDO dto) {
+	public int update(T dto) {
 		return baseDao.update(dto);
 	}
 
