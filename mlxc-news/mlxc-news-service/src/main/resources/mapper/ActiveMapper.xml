@@ -74,4 +74,11 @@
  		inner join news b on b.active_id=id
  		where b.id=#{id}
  	</select>
- </mapper>
+    <select id="selectActiveByTime" resultType="com.jxxy.mlxc.news.api.dto.ActiveUserDto" parameterType="String">
+		select t.id,t.active_name as activeName,t.time as beginTime,u.phone,u.user_name as userName
+ 		from users u
+ 		left join entry e on e.entry_user_id=u.id
+		left join active t on e.active_id=t.id
+ 		where date_format(t.time,'%Y-%m-%d %H')=#{date}
+	</select>
+</mapper>

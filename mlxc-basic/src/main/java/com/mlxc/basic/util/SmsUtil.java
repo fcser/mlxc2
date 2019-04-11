@@ -63,12 +63,13 @@ public class SmsUtil {
         }catch(Exception e){
 
         }
-        String url = Config.BASE_URL + operation;
+        /*String url = Config.BASE_URL + operation;
         String body = "accountSid=" + accountSid + "&to=" + phone + "&smsContent=" + tmpSmsContent
                 + HttpUtils.createCommonParam();
 
         // 提交请求
-        String result = HttpUtils.post(url, body);
+        String result = HttpUtils.post(url, body);*/
+        String result=sendMsg(phone,tmpSmsContent);
         System.out.println("result:" + System.lineSeparator() + result);
         if(!result.isEmpty()) {
             JSONObject js= JSONObject.parseObject(result);
@@ -78,6 +79,21 @@ public class SmsUtil {
             }
         }
         return "fail";//消息未成功发送
+    }
+
+    /**
+     * 发送短信
+     * @param phone
+     * @param msg
+     * @return
+     */
+    public static String sendMsg(String phone,String msg){
+        String url = Config.BASE_URL + operation;
+        String body = "accountSid=" + accountSid + "&to=" + phone + "&smsContent=" + msg
+                + HttpUtils.createCommonParam();
+
+        // 提交请求
+        return HttpUtils.post(url, body);
     }
     /**
      *

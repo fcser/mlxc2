@@ -48,4 +48,9 @@ spring:
   cache:
     type: REDIS
     cache-names: redisCache
+mlxc:
+  #开启活动开始前短信提醒功能
+  isSendActiveMsgEnable: true
+  #设置活动前多久提醒
+  beforeHour: 24
 
