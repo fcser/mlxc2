@@ -25,7 +25,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/mlxc")
 public class NewsController {
-    @Reference
+    @Reference(version = "1.0.0")
     private NewsService newsService;
     @Reference
     private ActiveService activeService;

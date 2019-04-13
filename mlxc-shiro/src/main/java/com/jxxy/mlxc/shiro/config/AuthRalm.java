@@ -25,13 +25,14 @@ import org.apache.shiro.subject.PrincipalCollection;
 @Slf4j
 public class AuthRalm extends AuthorizingRealm{
 
-	@Reference(version="1.0.0",url="dubbo://127.0.0.1:20880")
+	@Reference(version="1.0.0")
 	private UserService userService;
 	/**
 	 * 授权
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		log.info("come");
 		UserDto user=userService.getUserByPhone(principals.getPrimaryPrincipal().toString());
 		log.info("AuthorizationInfo user:{}",user==null?"NULL USER":user.toString());
 		SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
@@ -49,6 +50,7 @@ public class AuthRalm extends AuthorizingRealm{
 		UsernamePasswordToken upToken =(UsernamePasswordToken)token;
 		String userName=upToken.getUsername();
 		UserDto user=userService.getUserByPhone(userName);
+		log.info("AuthorizationInfo user:{}",user==null?"NULL USER":user.toString());
 		if(null!=user) {
 			return new SimpleAuthenticationInfo(user.getPhone(),user.getPassword(),getName());
 		}

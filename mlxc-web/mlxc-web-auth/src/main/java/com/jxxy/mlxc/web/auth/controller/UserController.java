@@ -3,6 +3,7 @@ package com.jxxy.mlxc.web.auth.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jxxy.mlxc.auth.api.dto.UserDto;
 import com.jxxy.mlxc.auth.api.service.UserService;
+import com.jxxy.mlxc.shiro.config.AuthUtil;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
 import com.mlxc.basic.util.SmsUtil;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mlxc")
 @Slf4j
 public class UserController {
-    @Reference
+    @Reference(version = "1.0.0")
     private UserService userService;
 
     @PostMapping("/regist.do")
@@ -54,10 +55,16 @@ public class UserController {
     }
     @PostMapping("/update.do")
     @ResponseBody
-    public Object update(/*@RequestBody UserDto user*/) {
+    public Object update(@RequestBody UserDto user) {
         BaseReturnDto<String> brd=null;
-        //int i=userService.update(user);
+        int i=userService.update(user);
         brd=new BaseReturnDto<>(ReturnCode.SUCCESS.getCode(),"修改资料成功！");
         return brd;
+    }
+    @GetMapping("/getUserByid.do")
+    @ResponseBody
+    public Object getUser(){
+        Long id= AuthUtil.getUserId();
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,userService.select(id));
     }
 }

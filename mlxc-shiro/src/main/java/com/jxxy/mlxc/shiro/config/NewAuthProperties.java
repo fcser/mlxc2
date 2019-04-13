@@ -24,7 +24,7 @@ public class NewAuthProperties {
     private String[] noFilter = {};
     private String[] businessFilter={};
     /**未登录跳转地址*/
-    private String noLoginUrl="/login.jsp";
+    private String noLoginUrl="/mlxc/noLogin.do";
     /**未获取角色权限地址*/
-    private String noRoleUrl="/error.jsp";
+    private String noRoleUrl="/mlxc/noRoles.do";
 }

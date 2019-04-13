@@ -15,6 +15,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,7 @@ import org.springframework.web.filter.DelegatingFilterProxy;
  */
 @Configuration
 @Slf4j
+@ConditionalOnProperty(prefix = "mlxc", name = "isShiroEnable", havingValue = "true")
 public class AuthAutoConfiguration {
 
 	 /**

@@ -81,7 +81,8 @@ public class ShiroProperties {
 	}
 
 	private static boolean isOpen=false;
-	@Value("${mlxc.shiro.isOpen}")
+	//@Value("${mlxc.shiro.isOpen}")
+	@Value("${mlxc.isShiroEnable}")
 	public void setIsOpen(boolean isOpen){
 		this.isOpen=isOpen;
 	}

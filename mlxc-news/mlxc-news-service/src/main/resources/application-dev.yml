@@ -8,8 +8,10 @@ pagehelper:
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   #mybatis扫描别名包，与注解@alias联用
-  #type-aliases-package: com.jxxy.mlxc.news.api.dto
+  type-aliases-package: com.jxxy.mlxc.news.api
 spring:
+  application:
+    name: news-service
   datasource:
     druid:
       url: jdbc:mysql://129.204.56.246:3306/mlxc?useUnicode=true&characterEncoding=UTF-8&generateSimpleParameterMetadata=true
@@ -23,17 +25,12 @@ spring:
       test-on-return: false
       test-while-idle: false
   dubbo:
-    application:
-      name: news_server
-    protocol:
-      name: dubbo
-      port: 20101
+    server: true
     registry:
       address: zookeeper://127.0.0.1:2181
-    server: true
-    scan: com.jxxy.mlxc.news
-    consumer:
-      check: false
+    protocol:
+      name: dubbo
+      port: 20880
   redis:
     jedis:
       pool:
@@ -50,7 +47,7 @@ spring:
     cache-names: redisCache
 mlxc:
   #开启活动开始前短信提醒功能
-  isSendActiveMsgEnable: true
+  isSendActiveMsgEnable: false
   #设置活动前多久提醒
   beforeHour: 24
 

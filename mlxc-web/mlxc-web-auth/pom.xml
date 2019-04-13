@@ -21,11 +21,11 @@
 			<artifactId>mlxc-shiro</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.jxxy</groupId>
 			<artifactId>websocket</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.jxxy</groupId>
 			<artifactId>mlxc-news-api</artifactId>

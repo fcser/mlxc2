@@ -24,16 +24,17 @@ spring:
       test-while-idle: false
   application:
     name: web-server
-  #dubbo:
-    #application:
-      #name: web_server
-    #protocol:
-      #name: dubbo
-      #port: 20100
-    #registry:
-      #address: zookeeper://127.0.0.1:2181
-    #consumer:
-      #check: false
+  dubbo:
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    consumer:
+      check: false
+    #负载均衡，轮询
+    reference:
+      loadbalance: roundrobin
+    protocal:
+      name: dubbo
+      port: 20880
   redis:
     jedis:
       pool:
@@ -49,6 +50,8 @@ spring:
     type: REDIS
     cache-names: redisCache
 mlxc:
+  #不开启shiro
+  isShiroEnable: true
   shiro:
     sessionTime: 1800000
     noFilter: /mlxc/**
@@ -57,4 +60,4 @@ mlxc:
     businessFilter: /mlxc/manage/business/**
     noLoginUrl: /mlxc/noLogin.do
     noRoleUrl: /mlxc/noRoles.do
-    isOpen: true
+    #isOpen: true

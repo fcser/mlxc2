@@ -58,5 +58,7 @@
 		left join role u on t.role=u.id
 		where phone=#{phone}
 	</select>
-	
+	<select id="select" resultMap="userMap" parameterType="Long">
+		select * from users where id=#{id}
+	</select>
 </mapper>

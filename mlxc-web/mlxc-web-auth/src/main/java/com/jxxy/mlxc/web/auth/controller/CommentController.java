@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/mlxc")
 public class CommentController {
-    @Reference
+    @Reference(version = "1.0.0")
     private CommentService commentService;
 
     /**

@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/mlxc")
 public class ActiveController {
-    @Reference
+    @Reference(version = "1.0.0")
     private ActiveService activeService;
-    @Reference
+    @Reference(version = "1.0.0")
     private EntryService entryService;
     /**
      * 获取活动详情

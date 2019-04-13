@@ -45,7 +45,7 @@ import com.mlxc.basic.dto.BaseReturnDto;
 @Slf4j
 public class LoginController {
 
-	@Reference(version="1.0.0",url="dubbo://127.0.0.1:20880")
+	@Reference(version="1.0.0")
 	private UserService userService;
 	
 	/**
