@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @Project:mlxc-news-service
@@ -25,6 +26,7 @@ import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
 		basePackages="com.jxxy.mlxc.news.mapper",
 		sqlSessionFactoryRef="sqlSessionFactory")
 @EnableDubboConfiguration
+@EnableScheduling//开启定时器
 public class NewsApplication {
 
 	public static void main(String[] args) {

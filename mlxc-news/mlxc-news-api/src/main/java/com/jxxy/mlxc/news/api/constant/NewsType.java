@@ -10,6 +10,7 @@ package com.jxxy.mlxc.news.api.constant;
  */
 
 public enum NewsType {
+    OTHER(0),
     FOOD(1),
     HOME(2),
     WALK(3),
@@ -31,7 +32,8 @@ public enum NewsType {
      */
     public static boolean isAcceptType(Integer type) {
         if (type != null) {
-            return (FOOD.getType().equals(type) ||HOME.getType().equals(type)||WALK.getType().equals(type)||SPORT.getType().equals(type));
+            return (FOOD.getType().equals(type) ||HOME.getType().equals(type)||WALK.getType().equals(type)
+                    ||SPORT.getType().equals(type)||OTHER.getType().equals(type));
         }
         return false;
     }
@@ -55,6 +57,9 @@ public enum NewsType {
             }
             if (SPORT.getType().equals(type)) {
                 return SPORT;
+            }
+            if(OTHER.getType().equals(type)){
+                return OTHER;
             }
         }
         return null;

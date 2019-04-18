@@ -93,9 +93,14 @@ public class NewsTrumpTools {
 	 * @Return:void
 	 */
 	public String newsVote(String userId,String newsId) {
-		// TODO Auto-generated method stub
+		// 检查文章是否存在
 		String msg="点赞失败：重复点赞";
 		String news=NEWS+newsId;
+		Map<Object, Object> newsData=redis.opsForHash().entries(news);
+		if(newsData==null||newsData.isEmpty()){
+			return "文章不存在";
+		}
+		log.info("news:{}",newsData);
 		//计算文章的投票截止时间
 		long cutoff=dateToStamp()-ONE_WEEK_SECONDS;
 		//检查是否还可以进行投票

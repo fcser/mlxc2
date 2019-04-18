@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxxy.mlxc.news.mapper.CollectionDAO">
+    <insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+        insert into collection(news_id,collect_user_id)
+        values (#{newsId},#{userId})
+    </insert>
+    <select id="countMyCollect" resultType="java.lang.Integer">
+        select count(t.id) from collection t where t.news_id=#{newsId} and t.collect_user_id=#{userId}
+    </select>
+    <select id="getMyCollect" resultType="com.jxxy.mlxc.news.api.dto.CollectionDto">
+        select t.news_id as newsId,t.collect_user_id as collectUserId,t.create_time as createTime,n.title as newsTitle
+        from collection t
+        left join news n on t.news_id=n.id
+        where t.collect_user_id=#{userId}
+    </select>
+</mapper>

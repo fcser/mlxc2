@@ -64,10 +64,10 @@ public interface CommentDAO {
 
     /**
      * 查询子评论
-     * @param id
+     * @param id 父评论id
      * @return
      */
-    List<CommentDependencyDto> showChildComments(@Param("commentId") Long id);
+    List<CommentDependencyDto> showChildComments(Long id);
 
     /**
      * 查询给我的新闻评论（逻辑分，给文章作者）,作者回复如何查看

@@ -1,6 +1,8 @@
 package com.jxxy.mlxc.web.auth.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jxxy.mlxc.news.api.constant.AuditFlag;
+import com.jxxy.mlxc.news.api.constant.Type;
 import com.jxxy.mlxc.news.api.dto.NewsDto;
 import com.jxxy.mlxc.news.api.query.NewsQuery;
 import com.jxxy.mlxc.news.api.service.ActiveService;
@@ -27,7 +29,7 @@ import java.util.List;
 public class NewsController {
     @Reference(version = "1.0.0")
     private NewsService newsService;
-    @Reference
+    @Reference(version = "1.0.0")
     private ActiveService activeService;
     /**
      * 获取新闻列表
@@ -48,15 +50,27 @@ public class NewsController {
     public Object getNews(Long id){
         return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.select(AuthUtil.getUserId(),id));
     }
+    @PostMapping("/desk/addArticle.do")
+    @ResponseBody
+    public Object insertArticle(@RequestBody NewsDto news){
+        news.setType(Type.ARTICLE.getType());
+        news.setCreateUserId(AuthUtil.getUserId());
+        newsService.insert(news);
+        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+    }
     @PostMapping("/manage/insertNews.do")
     @ResponseBody
-    public Object insertNews(NewsDto news){
+    public Object insertNews(@RequestBody NewsDto news){
+        news.setType(Type.NEWS.getType());
+        news.setAuditFlag(AuditFlag.PASS.getType());
+        news.setCreateUserId(AuthUtil.getUserId());
         newsService.insert(news);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
     @PostMapping("/manage/updateNews.do")
     @ResponseBody
     public Object updateNews(NewsDto news){
+        news.setUpdateUserId(AuthUtil.getUserId());
         newsService.update(news);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
@@ -70,5 +84,55 @@ public class NewsController {
     @ResponseBody
     public Object batchDelNews(List<Long> newsIds){
         return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.batchDelete(newsIds));
+    }
+
+    /**
+     * 点赞
+     * @param id
+     * @return
+     */
+    @PostMapping("/desk/like.do")
+    @ResponseBody
+    public Object giveALike(@RequestParam("id") Long id){
+        Long userId=AuthUtil.getUserId();
+        if(newsService.isGiveALike(userId,id)>0){
+            return new BaseReturnDto<>(ReturnCode.REPEAT.getCode(),"不可重复点赞");
+        }
+        newsService.giveALike(userId,id);
+        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+    }
+
+    /**
+     * 是否已经点赞
+     * @param id
+     * @return
+     */
+    @PostMapping("/desk/isLike.do")
+    @ResponseBody
+    public Object isLike(@RequestParam("id") Long id){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.isGiveALike(AuthUtil.getUserId(),id));
+    }
+
+    /**
+     * 获取我发表的文章
+     * @param newsQuery
+     * @return
+     */
+    @GetMapping("/desk/myArticle.do")
+    @ResponseBody
+    public Object getMyArticle(@ModelAttribute NewsQuery newsQuery){
+        newsQuery.setCreateUserId(AuthUtil.getUserId());
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getMyArticle(newsQuery));
+    }
+    /**
+     * 按时间排序获取新闻
+     * @param newsQuery
+     * @return
+     */
+    @GetMapping("/getNewsByTime.do")
+    @ResponseBody
+    public Object getNewsByTime(@ModelAttribute NewsQuery newsQuery){
+        newsQuery.setCreateUserId(AuthUtil.getUserId());
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getNewsByTime(newsQuery));
     }
 }

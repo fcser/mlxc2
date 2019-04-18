@@ -102,17 +102,18 @@ public class AuthAutoConfiguration {
     @Bean(name="shiroFilter")
     @Primary
     public ShiroFilterFactoryBean shiroFilter(@Autowired DefaultWebSecurityManager securityManager,
-    		//@Autowired SessionFilter sessionFilter,
-            //@Autowired RolesFilter rolesFilter,
+    		@Autowired SessionFilter sessionFilter,
+            @Autowired RolesFilter rolesFilter,
             @Autowired NewAuthProperties newAuthProperties) {
     	ShiroFilterFactoryBean shiro=new ShiroFilterFactoryBean();
     	shiro.setSecurityManager(securityManager);
-        shiro.setLoginUrl(newAuthProperties.getNoLoginUrl());
-        shiro.setUnauthorizedUrl(newAuthProperties.getNoRoleUrl());
+        /*shiro.setLoginUrl(newAuthProperties.getNoLoginUrl());
+        shiro.setUnauthorizedUrl(newAuthProperties.getNoRoleUrl());*/
     	//设置过滤器
     	Map<String,Filter> filterMap=new LinkedHashMap<>();
-    	/*filterMap.put(WHO_HAVE_AUTH, sessionFilter);
-        *//*filterMap.put(WHO_IS_BUSINESS, sessionFilter);
+    	filterMap.put(WHO_HAVE_AUTH, sessionFilter);
+    	filterMap.put("roles",rolesFilter);
+        /*filterMap.put(WHO_IS_BUSINESS, sessionFilter);
         filterMap.put(WHO_IS_ADMIN, sessionFilter);*/
         /*filterMap.put(WHO_IS_BUSINESS, rolesFilter);
         filterMap.put(WHO_IS_ADMIN, rolesFilter);*/

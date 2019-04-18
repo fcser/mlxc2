@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.jxxy.mlxc.news.api.constant.AuditFlag;
+import com.jxxy.mlxc.news.api.constant.Type;
 import com.mlxc.basic.dto.BaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +48,8 @@ public class NewsServiceImpl implements NewsService {
 	NewsDAO newsDAO;
 	@Autowired
 	NewsConverter newsConverter;
+
+	private boolean flag=false;
 	@Autowired
 	private StringRedisTemplate redis=null;
 	
@@ -57,14 +62,16 @@ public class NewsServiceImpl implements NewsService {
 	public Long insert(NewsDto news) {
 		NewsDO newsDO=newsConverter.fromNewsDto(news);
 		newsDAO.insert(news);
-		//插入redis中
-		NewsTrumpTools tools=new NewsTrumpTools(redis);
-		tools.postNews(newsDO);
+        if(flag&&Type.NEWS.getType().equals(news.getType())) {
+            //新闻直接插入到redis中去
+            NewsTrumpTools tools = new NewsTrumpTools(redis);
+            tools.postNews(newsDO);
+        }
 		return news.getId();
 	}
 	@Override
 	public PageInfo<NewsDto> findByPage(NewsQuery query) {
-		if(query.getIsRecommend().equals(0)) {
+		if(flag&&query.getIsRecommend().equals(0)) {
 			//启用推荐系统
 			NewsDto dto=new NewsDto();
 			NewsTrumpTools tools=new NewsTrumpTools(redis);
@@ -93,8 +100,10 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public int delete(Long id) {
 		//先删除缓存，再删数据库
-		NewsTrumpTools tools=new NewsTrumpTools(redis);
-		tools.deleteNews(id.toString());
+        if(flag) {
+            NewsTrumpTools tools = new NewsTrumpTools(redis);
+            tools.deleteNews(id.toString());
+        }
 		return newsDAO.delete(id);
 	}
 	@Override
@@ -102,8 +111,10 @@ public class NewsServiceImpl implements NewsService {
 		if(ids==null) {
 			return 0;
 		}
-		NewsTrumpTools tools=new NewsTrumpTools(redis);
-		ids.stream().map(s->s.toString()).forEach(tools::deleteNews);
+		if(flag) {
+            NewsTrumpTools tools = new NewsTrumpTools(redis);
+            ids.stream().map(s -> s.toString()).forEach(tools::deleteNews);
+        }
 		/*for(int i=0;i<ids.size();i++) {
 			tools.deleteNews(ids.get(i).toString());
 		}*/
@@ -115,12 +126,38 @@ public class NewsServiceImpl implements NewsService {
 	}
 	@Override
 	public NewsDto select(Long userId,Long newsId) {
-		if(null!=userId&&userId!=0) {
-			//每一次查询新闻，就相当于给他打了一次分，但一个用户只能打一次分
-			NewsTrumpTools tools = new NewsTrumpTools(redis);
-			tools.newsVote(userId.toString(), newsId.toString());
-		}
 		return newsDAO.select(newsId);
+	}
+
+	@Override
+	public int isGiveALike(Long userId, Long newsId) {
+		return newsDAO.isGiveALike(userId,newsId);
+	}
+
+	@Override
+	public void giveALike(Long userId, Long newsId) {
+        if(flag&&null!=userId&&userId!=0) {
+            //每一次查询新闻，就相当于给他打了一次分，但一个用户只能打一次分
+            NewsTrumpTools tools = new NewsTrumpTools(redis);
+            tools.newsVote(userId.toString(), newsId.toString());
+        }
+		newsDAO.updateGood(newsId);
+		newsDAO.giveALike(userId,newsId);
+	}
+
+	@Override
+	public PageInfo<NewsDto> getMyArticle(NewsQuery newsQuery) {
+		PageHelper.startPage(newsQuery.getPageNum(),newsQuery.getPageSize());
+		List<NewsDto> news=newsDAO.getNewsByTime(newsQuery);
+		return new PageInfo<>(news);
+	}
+
+	@Override
+	public PageInfo<NewsDto> getNewsByTime(NewsQuery newsQuery) {
+		newsQuery.setAuditFlag(AuditFlag.PASS.getType());
+		PageHelper.startPage(newsQuery.getPageNum(),newsQuery.getPageSize());
+		List<NewsDto> news=newsDAO.getNewsByTime(newsQuery);
+		return new PageInfo<>(news);
 	}
 
 

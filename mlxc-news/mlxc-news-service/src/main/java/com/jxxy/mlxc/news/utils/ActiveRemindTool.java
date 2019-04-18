@@ -1,8 +1,6 @@
 package com.jxxy.mlxc.news.utils;
 
-import com.jxxy.mlxc.news.api.dto.ActiveDto;
 import com.jxxy.mlxc.news.api.dto.ActiveUserDto;
-import com.jxxy.mlxc.news.api.dto.UserDto;
 import com.jxxy.mlxc.news.mapper.ActiveDAO;
 import com.mlxc.basic.util.SmsUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +60,7 @@ public class ActiveRemindTool {
         log.info("send message to {} users",list.size());
         if(null!=list&&list.size()>0){
             list.stream().forEach(e->{
-                String msg="尊敬的"+e.getUserName()+",您报名的活动{"+e.getActiveName()+"}将于"+e.getBeginTime()+"开始，请您提前半小时到场！";
+                String msg="【忆美.上狮】尊敬的"+e.getUserName()+",您报名的活动{"+e.getActiveName()+"}将于"+e.getBeginTime()+"开始，请您提前半小时到场！";
                 SmsUtil.sendMsg(e.getPhone(),msg);
             });
         }

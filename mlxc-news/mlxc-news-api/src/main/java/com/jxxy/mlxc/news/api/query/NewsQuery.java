@@ -35,4 +35,8 @@ public class NewsQuery extends BaseQuery {
 	 * 根据用户查询
 	 */
 	private Long createUserId;
+	/**
+	 * 审核结果
+	 */
+	private Integer auditFlag;
 }

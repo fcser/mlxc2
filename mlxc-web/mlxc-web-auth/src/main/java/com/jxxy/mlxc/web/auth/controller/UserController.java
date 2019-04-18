@@ -6,8 +6,8 @@ import com.jxxy.mlxc.auth.api.service.UserService;
 import com.jxxy.mlxc.shiro.config.AuthUtil;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
-import com.mlxc.basic.util.SmsUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,9 +43,12 @@ public class UserController {
     public Object canRegist(@RequestParam(value="phone") String phone) {
         BaseReturnDto<String> brd=null;
         UserDto user=userService.getUserByPhone(phone);
+        if(StringUtils.isBlank(phone)){
+            return new BaseReturnDto<>(ReturnCode.FAIL_SYSTEM.getCode(),"手机号不允许为空");
+        }
         if(user==null) {
-            String msg=	SmsUtil.execute(phone, 60);
-            //String msg="123456";
+            //String msg=	SmsUtil.execute(phone, 60);
+            String msg="123456";
             brd=new BaseReturnDto<>(ReturnCode.SUCCESS.getCode(),"检查手机号成功！");
             brd.setData(msg);
         }else {

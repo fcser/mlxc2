@@ -1,6 +1,7 @@
 /**
  * 
- */
+ *//*
+
 package com.jxxy.mlxc.news.controller;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import com.jxxy.mlxc.news.api.dto.NewsDto;
 import com.jxxy.mlxc.news.api.query.NewsQuery;
 import com.jxxy.mlxc.news.api.service.NewsService;
 
+*/
 /**
  * @Project:mlxc-news-service
  * @Class:NewsController.java
@@ -21,18 +23,22 @@ import com.jxxy.mlxc.news.api.service.NewsService;
  * @Description:
  * @Version: 1.0.0 
  *
- */
+ *//*
+
 @Controller
 public class NewsController {
 
-	/*@Autowired
-	private NewsConverter newsConverter;*/
+	*/
+/*@Autowired
+	private NewsConverter newsConverter;*//*
+
 	@Reference(version="1.0.0")
 	private NewsService newsService;
 	@GetMapping("/addNews.do")
 	@ResponseBody
 	public Object addNews() {
-		/*System.out.println("com in");
+		*/
+/*System.out.println("com in");
 		NewsDO dto=new NewsDO();
 		dto.setTitle("单元测试news");
 		dto.setIntro("呵呵呵呵");
@@ -40,7 +46,8 @@ public class NewsController {
 		dto.setCreateUserId(1L);
 		//NewsDO newsDO=newsConverter.fromNewsDto(dto);
 		newsService.sayHello();
-		System.out.println("添加成功："+newsService.insert(dto));*/
+		System.out.println("添加成功："+newsService.insert(dto));*//*
+
 		NewsQuery query=new NewsQuery();
 		query.setPageNum(1);
 		query.setPageSize(3);
@@ -48,3 +55,4 @@ public class NewsController {
 		return dto;
 	}
 }
+*/

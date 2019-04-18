@@ -7,8 +7,6 @@ pagehelper:
   params: count=countSql
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
-  #mybatis扫描别名包，与注解@alias联用
-  #type-aliases-package: com.jxxy.mlxc.news.api.dto
 spring:
   datasource:
     druid:
@@ -34,7 +32,7 @@ spring:
       loadbalance: roundrobin
     protocal:
       name: dubbo
-      port: 20880
+      port: 20881
   redis:
     jedis:
       pool:

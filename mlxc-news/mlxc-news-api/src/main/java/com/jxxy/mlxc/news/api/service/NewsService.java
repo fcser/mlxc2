@@ -65,4 +65,32 @@ public interface NewsService {
 	 * @Return:T
 	 */
 	NewsDto select(Long userId,Long id);
+
+	/**
+	 * 是否已经点赞了
+	 * @param userId
+	 * @param newsId
+	 * @return
+	 */
+	int isGiveALike(Long userId,Long newsId);
+
+	/**
+	 * 点赞
+	 * @param userId
+	 * @param newsId
+	 */
+	void giveALike(Long userId,Long newsId);
+
+	/**
+	 * 获取我发表的文章
+	 * @return
+	 */
+	PageInfo<NewsDto> getMyArticle(NewsQuery newsQuery);
+
+	/**
+	 * 获取最新新闻
+	 * @param newsQuery
+	 * @return
+	 */
+	PageInfo<NewsDto> getNewsByTime(NewsQuery newsQuery);
 }

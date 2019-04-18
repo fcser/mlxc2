@@ -22,8 +22,9 @@ public enum ReturnCode {
     /** 请求超时 */
     FAIL_TIME_OUT(408, "请求超时"),
     /** 服务器异常（以及其它问题） */
-    FAIL_SYSTEM(500, "服务器异常");
-
+    FAIL_SYSTEM(500, "服务器异常"),
+    /**重复操作异常*/
+    REPEAT(201,"重复操作异常");
     private Integer code;
 
     private String message;

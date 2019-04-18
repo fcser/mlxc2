@@ -44,7 +44,7 @@
         and c.father_comment_id is null
     </select>
     <!--一级留言-->
-    <select id="getComments" resultMap="commentDependencyMap" parameterType="Integer">
+    <select id="getComments" resultMap="commentDependencyMap" parameterType="Long">
         select t.id,t.content,u.user_name,t.good_num,t.create_time
         from comment t
         left join users u on u.id=t.comment_user_id
@@ -53,14 +53,14 @@
         and t.news_id=#{newsId}
         order by t.good_num desc
     </select>
-    <select id="showChildComments" resultMap="commentDependencyMap">
+    <select id="showChildComments" resultMap="commentDependencyMap" parameterType="Long">
         select t.id,t.content,u.user_name,t.good_num,t.create_time
         from comment t
         left join users u on u.id=t.comment_user_id
         left join comment_depend c on c.comment_id=t.id
-        where c.father_comment_id=#{commentId}
+        where c.father_comment_id=#{id}
         order by t.good_num desc
-        LIMIT 1,100
+        LIMIT 0,100
     </select>
     <select id="getMyComments" resultMap="commentMap" parameterType="commentQuery">
         select distinct t.news_id,n.title as new_title,t.id,t.content,t.create_time,u.user_name

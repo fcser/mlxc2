@@ -17,17 +17,30 @@
  		<result column="active_id" jdbcType="INTEGER" property="activeId"/>
  		<result column="active_name" jdbcType="VARCHAR" property="activeName"/>
  		<result column="grade" jdbcType="INTEGER" property="grade"/>
- 		<result column="type" jdbcType="VARCHAR" property="type"/>
+ 		<result column="type" jdbcType="INTEGER" property="type"/>
+		<result column="news_type" jdbcType="INTEGER" property="newsType"/>
+		<result column="audit_flag" jdbcType="INTEGER" property="auditFlag"/>
  	</resultMap>
  	<insert id="insert" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
  		<selectKey resultType="Long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into news(title,intro,content,create_user_id,type) 
+		insert into news(title,intro,content,create_user_id,news_type
+		<if test="auditFlag!=null and auditFlag!=''">
+			,audit_flag
+		</if>
+		,type)
 		values
-		(#{title},#{intro},#{content},#{createUserId},#{type})
+		(#{title},#{intro},#{content},#{createUserId},#{newsType}
+		<if test="auditFlag!=null and auditFlag!=''">
+			,#{auditFlag}
+		</if>
+		,#{type})
  	</insert>
- 	<update id="update" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
+	<insert id="giveALike">
+		insert into news_good (news_id,user_id) values (#{newsId},#{userId})
+	</insert>
+	<update id="update" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
  		update news t set 
  		t.update_user_id=#{updateUserId},
  		t.update_time=SYSDATE()
@@ -47,7 +60,10 @@
  		t.active_id=#{activeId}
  		where t.id=#{id}
  	</update>
- 	<delete id="delete" parameterType="Long">
+	<update id="updateGood" parameterType="Long">
+		update news t set t.grade=t.grade+1 where t.id=#{newsId}
+	</update>
+	<delete id="delete" parameterType="Long">
  		delete from news t where t.id=#{id}
  	</delete>
  	<delete id="batchDelete" parameterType="List">
@@ -74,12 +90,53 @@
  		left join users a on t.create_user_id=a.id
  		left join users c on t.update_user_id=c.id
  		left join active b on t.active_id=b.id
- 		where 1=1
+ 		where 1=1 and t.del_flag=0 and t.audit_flag=1
  		<if test="type!=null">
  			AND t.type=#{type}
  		</if>
  		<if test="createUserId!=null">
  			AND t.create_user_id=#{createUserId}
  		</if>
+ 		order by t.grade desc
  	</select>
- </mapper>
+    <select id="isGiveALike" resultType="java.lang.Integer">
+		select count(t.id)
+		from news_good t
+		where t.news_id=#{newsId} and t.user_id=#{userId}
+	</select>
+   <!-- <select id="getMyArticle" parameterType="com.jxxy.mlxc.news.api.query.NewsQuery" resultMap="newsMap">
+		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
+		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
+		t.active_id,b.active_name,t.grade,t.type,t.audit_flag
+		from news t
+		left join users a on t.create_user_id=a.id
+		left join users c on t.update_user_id=c.id
+		left join active b on t.active_id=b.id
+		where 1=1 and t.del_flag=0
+		<if test="type!=null">
+			AND t.type=#{type}
+		</if>
+		AND t.create_user_id=#{createUserId}
+		order by t.create_time desc
+	</select>-->
+	<select id="getNewsByTime" parameterType="com.jxxy.mlxc.news.api.query.NewsQuery" resultMap="newsMap">
+		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
+		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
+		t.active_id,b.active_name,t.grade,t.type,t.audit_flag
+		from news t
+		left join users a on t.create_user_id=a.id
+		left join users c on t.update_user_id=c.id
+		left join active b on t.active_id=b.id
+		where 1=1 and t.del_flag=0
+		<if test="auditFlag!=null">
+			and t.audit_flag=#{auditFlag}
+		</if>
+		<if test="type!=null">
+			AND t.type=#{type}
+		</if>
+		<if test="createUserId!=null">
+			AND t.create_user_id=#{createUserId}
+		</if>
+		order by t.create_time desc
+	</select>
+</mapper>

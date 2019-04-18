@@ -4,11 +4,13 @@ import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
 import com.mlxc.basic.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @Project:mlxc-parent
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 public class RolesFilter extends RolesAuthorizationFilter {
+
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response,

@@ -2,6 +2,7 @@ package com.jxxy.mlxc.news.api.model;
 
 import com.mlxc.basic.dto.BaseDO;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @Project:mlxc-parent
@@ -12,9 +13,10 @@ import lombok.Data;
  * @Version: 1.0.0
  */
 @Data
+@Alias("CollectionDO")
 public class CollectionDO extends BaseDO {
 
     private static final long serialVersionUID = -8824901812965679880L;
     private Long newsId;
-    private Long CollectUserId;
+    private Long collectUserId;
 }

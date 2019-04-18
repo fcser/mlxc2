@@ -32,6 +32,6 @@ public class AuthUtil {
         if(!ShiroProperties.getIsOpen()){
             return 1l;
         }
-        return getUser().getId();
+        return getUser()==null?0l:getUser().getId();
     }
 }

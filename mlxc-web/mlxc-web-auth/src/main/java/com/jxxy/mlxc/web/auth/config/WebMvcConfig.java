@@ -19,6 +19,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private AccessInterceptor accessInterceptor;
 
+    /**
+     * 注册拦截器
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(accessInterceptor).addPathPatterns("/**");

@@ -28,8 +28,8 @@ public class BaseQuery implements Serializable{
 	private Integer pageSize=10;
 	private String name;
 	/**
-	 * 是否用redis推荐策略，默认0，推荐
+	 * 是否用redis推荐策略，默认1，不推荐
 	 */
-	private Integer isRecommend=0;
+	private Integer isRecommend=1;
 	
 }
