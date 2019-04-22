@@ -28,12 +28,6 @@ public interface NewsConverter {
 	 * @Param:
 	 * @Return:NewsDO
 	 */
-	@Mappings({
-		@Mapping(source="dto.title",target="title"),
-		@Mapping(source="dto.intro",target="intro"),
-		@Mapping(source="dto.id",target="id"),
-		@Mapping(source="dto.content",target="content")
-	})
 	NewsDO fromNewsDto(NewsDto dto);
 	/**
 	 * do转dto

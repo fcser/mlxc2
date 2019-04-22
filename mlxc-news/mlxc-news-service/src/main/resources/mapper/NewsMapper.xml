@@ -11,9 +11,9 @@
  		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
  		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
  		<result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
- 		<result column="user_name" jdbcType="VARCHAR" property="createUserName"/>
+ 		<result column="create_user_name" jdbcType="VARCHAR" property="createUserName"/>
  		<result column="update_user_id" jdbcType="INTEGER" property="updateUserId"/>
- 		<result column="user_name" jdbcType="VARCHAR" property="updateUserName"/>
+ 		<result column="update_user_name" jdbcType="VARCHAR" property="updateUserName"/>
  		<result column="active_id" jdbcType="INTEGER" property="activeId"/>
  		<result column="active_name" jdbcType="VARCHAR" property="activeName"/>
  		<result column="grade" jdbcType="INTEGER" property="grade"/>
@@ -21,7 +21,7 @@
 		<result column="news_type" jdbcType="INTEGER" property="newsType"/>
 		<result column="audit_flag" jdbcType="INTEGER" property="auditFlag"/>
  	</resultMap>
- 	<insert id="insert" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
+ 	<insert id="insert" parameterType="com.jxxy.mlxc.news.api.dto.NewsDto">
  		<selectKey resultType="Long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
@@ -40,7 +40,7 @@
 	<insert id="giveALike">
 		insert into news_good (news_id,user_id) values (#{newsId},#{userId})
 	</insert>
-	<update id="update" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
+	<update id="update" parameterType="com.jxxy.mlxc.news.api.dto.NewsDto">
  		update news t set 
  		t.update_user_id=#{updateUserId},
  		t.update_time=SYSDATE()
@@ -64,18 +64,18 @@
 		update news t set t.grade=t.grade+1 where t.id=#{newsId}
 	</update>
 	<delete id="delete" parameterType="Long">
- 		delete from news t where t.id=#{id}
+ 		delete from news where id=#{id}
  	</delete>
  	<delete id="batchDelete" parameterType="List">
- 		delete from news t where t.id in 
+ 		delete from news where id in
  		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
  			#{item}
  		</foreach>
  	</delete>
  	<select id="select" parameterType="Long" resultMap="newsMap">
  		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
- 		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
- 		t.active_id,b.active_name,t.grade,t.type
+ 		t.create_user_id,a.user_name as create_user_name,t.update_user_id,c.user_name as update_user_name,
+ 		t.active_id,b.active_name,t.grade,t.type,t.audit_flag,t.news_type
  		from news t
  		left join users a on t.create_user_id=a.id
  		left join users c on t.update_user_id=c.id
@@ -84,8 +84,8 @@
  	</select>
  	<select id="find" parameterType="com.jxxy.mlxc.news.api.query.NewsQuery" resultMap="newsMap">
  		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
- 		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
- 		t.active_id,b.active_name,t.grade,t.type
+		t.create_user_id,a.user_name as create_user_name,t.update_user_id,c.user_name as update_user_name,
+ 		t.active_id,b.active_name,t.grade,t.type,t.audit_flag,t.news_type
  		from news t
  		left join users a on t.create_user_id=a.id
  		left join users c on t.update_user_id=c.id
@@ -121,8 +121,8 @@
 	</select>-->
 	<select id="getNewsByTime" parameterType="com.jxxy.mlxc.news.api.query.NewsQuery" resultMap="newsMap">
 		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
-		t.create_user_id,a.user_name,t.update_user_id,c.user_name,
-		t.active_id,b.active_name,t.grade,t.type,t.audit_flag
+		t.create_user_id,a.user_name as create_user_name,t.update_user_id,c.user_name as update_user_name,
+		t.active_id,b.active_name,t.grade,t.type,t.audit_flag,t.news_type
 		from news t
 		left join users a on t.create_user_id=a.id
 		left join users c on t.update_user_id=c.id
@@ -138,5 +138,22 @@
 			AND t.create_user_id=#{createUserId}
 		</if>
 		order by t.create_time desc
+	</select>
+    <select id="getNews" resultMap="newsMap">
+		select t.id,t.title,t.intro,t.content,t.create_time,t.update_time,
+		t.create_user_id,a.user_name as create_user_name,t.update_user_id,c.user_name as update_user_name,
+		t.active_id,b.active_name,t.grade,t.type,t.news_type
+		from news t
+		left join users a on t.create_user_id=a.id
+		left join users c on t.update_user_id=c.id
+		left join active b on t.active_id=b.id
+		where 1=1 and t.del_flag=0 and t.audit_flag=1
+		order by t.create_time desc
+		limit 0,20
+	</select>
+	<select id="getNewsData" resultType="com.jxxy.mlxc.news.api.dto.NewsDataDto" parameterType="Long">
+		select distinct t.grade as goodNum,count(c.id) as collectionNum from news t
+		right join collection c on t.id=c.news_id
+		where t.id=#{newsId}
 	</select>
 </mapper>

@@ -3,7 +3,7 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.jxxy.mlxc.business.mapper.ProductDao">
- 	<resultMap type="com.jxxy.mlxc.news.api.dto.ProductDto" id="ProductMap">
+ 	<resultMap type="com.jxxy.mlxc.business.api.dto.ProductDto" id="ProductMap">
  		<result column="id" jdbcType="BIGINT" property="id"/>
  		<result column="name" jdbcType="VARCHAR" property="name"/>
  		<result column="decription" jdbcType="VARCHAR" property="decription"/>
@@ -62,7 +62,7 @@
 		</foreach>
 	</delete>
 
-	<select id="listProduct" parameterType="com.jxxy.mlxc.business.api.query.ProductQuery" resultType="ProductMap">
+	<select id="listProduct" parameterType="com.jxxy.mlxc.business.api.query.ProductQuery" resultMap="ProductMap">
 		select
 		<include refid="baseProduct"/>
 		from product t
@@ -73,7 +73,7 @@
 		order by t.create_time desc
 	</select>
 
-	<select id="getProduct" parameterType="Long" resultType="ProductMap">
+	<select id="getProduct" parameterType="Long" resultMap="ProductMap">
 		select
 		t.version,
 		<include refid="baseProduct"/>

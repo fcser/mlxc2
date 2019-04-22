@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 import com.jxxy.mlxc.news.api.constant.AuditFlag;
 import com.jxxy.mlxc.news.api.constant.Type;
+import com.jxxy.mlxc.news.api.dto.NewsDataDto;
+import com.jxxy.mlxc.news.api.service.CommentService;
+import com.jxxy.mlxc.news.mapper.CommentDAO;
 import com.mlxc.basic.dto.BaseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -42,13 +46,15 @@ import com.mlxc.basic.dto.BaseDO;
 @Service(version="1.0.0",interfaceClass=NewsService.class)
 @Component
 @Transactional(rollbackFor=Exception.class)
+@Slf4j
 public class NewsServiceImpl implements NewsService {
 
 	@Autowired
 	NewsDAO newsDAO;
 	@Autowired
 	NewsConverter newsConverter;
-
+	@Autowired
+	CommentDAO commentDAO;
 	private boolean flag=false;
 	@Autowired
 	private StringRedisTemplate redis=null;
@@ -122,6 +128,7 @@ public class NewsServiceImpl implements NewsService {
 	}
 	@Override
 	public int update(NewsDto dto) {
+		log.info("in service:{}",dto.toString());
 		return newsDAO.update(dto);
 	}
 	@Override
@@ -158,6 +165,18 @@ public class NewsServiceImpl implements NewsService {
 		PageHelper.startPage(newsQuery.getPageNum(),newsQuery.getPageSize());
 		List<NewsDto> news=newsDAO.getNewsByTime(newsQuery);
 		return new PageInfo<>(news);
+	}
+
+	@Override
+	public List<NewsDto> getNews() {
+		return newsDAO.getNews();
+	}
+
+	@Override
+	public NewsDataDto getNewsData(Long newsId) {
+		NewsDataDto dto=newsDAO.getNewsData(newsId);
+		dto.setCommentNum(commentDAO.countComments(newsId));
+		return dto;
 	}
 
 

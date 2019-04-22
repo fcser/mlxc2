@@ -36,6 +36,6 @@ public class NewsDO extends BaseDO {
 	/**
 	 * 评分
 	 */
-	private Long grade;
+	private Integer grade;
 	private String type;
 }

@@ -12,6 +12,7 @@ import javax.servlet.Filter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,23 +51,28 @@ public class AuthAutoConfiguration {
     /**
      * 管理员权限
      */
-    private static final String WHO_IS_ADMIN="roles[admin]";
+    private static final String WHO_IS_ADMIN="authc,roles[admin]";
     /**
      * 商家权限
      */
-    private static final String WHO_IS_BUSINESS="roles[business]";
+    private static final String WHO_IS_BUSINESS="authc,roles[business]";
     @Bean
     @Primary
     public AuthorizingRealm authRalm() {
     	AuthRalm authRalm=new AuthRalm();
-    	authRalm.setAuthenticationCachingEnabled(true);
     	authRalm.setCachingEnabled(true);
     	//权限缓存别名，需要区分权限和认证key
-    	authRalm.setAuthenticationCacheName("authenticationCache");
-    	authRalm.setAuthorizationCachingEnabled(true);
-    	authRalm.setAuthorizationCacheName("authorizationCache");
+        authRalm.setAuthorizationCacheName("authorizationCache");
+        authRalm.setAuthenticationCacheName("authenticationCache");
+        authRalm.setAuthenticationCachingEnabled(true);
     	return authRalm;
     }
+   /* @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Autowired DefaultWebSecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }*/
     @Bean
     @Primary
     public DefaultWebSecurityManager securityManager(@Autowired @Lazy AuthorizingRealm realm) {
@@ -128,8 +134,8 @@ public class AuthAutoConfiguration {
     	shiro.setFilterChainDefinitionMap(chainMap);
         return shiro;
     }
-    /*@Bean
+    @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
         return new LifecycleBeanPostProcessor();
-    }*/
+    }
 }

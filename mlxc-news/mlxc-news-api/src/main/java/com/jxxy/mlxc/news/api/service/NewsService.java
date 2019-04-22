@@ -6,6 +6,7 @@ package com.jxxy.mlxc.news.api.service;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.jxxy.mlxc.news.api.dto.NewsDataDto;
 import com.jxxy.mlxc.news.api.dto.NewsDto;
 import com.jxxy.mlxc.news.api.model.NewsDO;
 import com.jxxy.mlxc.news.api.query.NewsQuery;
@@ -93,4 +94,12 @@ public interface NewsService {
 	 * @return
 	 */
 	PageInfo<NewsDto> getNewsByTime(NewsQuery newsQuery);
+
+	/**
+	 * 查询出最近的20条来重建缓存
+	 * @return
+	 */
+	List<NewsDto> getNews();
+
+	NewsDataDto getNewsData(Long newsId);
 }

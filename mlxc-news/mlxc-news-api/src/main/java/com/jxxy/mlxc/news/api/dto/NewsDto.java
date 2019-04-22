@@ -42,7 +42,7 @@ public class NewsDto extends BaseDto {
 	/**
 	 * 点赞数量
 	 */
-	private Long grade;
+	private Integer grade;
 	/**新闻或文章*/
 	private Integer type;
 	/**吃住行玩*/

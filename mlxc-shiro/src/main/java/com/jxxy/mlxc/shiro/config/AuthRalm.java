@@ -32,9 +32,8 @@ public class AuthRalm extends AuthorizingRealm{
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		log.info("come");
 		UserDto user=userService.getUserByPhone(principals.getPrimaryPrincipal().toString());
-		log.info("AuthorizationInfo user:{}",user==null?"NULL USER":user.toString());
+		//log.info("AuthorizationInfo user:{}",user==null?"NULL USER":user.toString());
 		SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
 		if(null!=user){
 			simpleAuthorizationInfo.addRole(user.getRoleName());
@@ -50,7 +49,7 @@ public class AuthRalm extends AuthorizingRealm{
 		UsernamePasswordToken upToken =(UsernamePasswordToken)token;
 		String userName=upToken.getUsername();
 		UserDto user=userService.getUserByPhone(userName);
-		log.info("AuthorizationInfo user:{}",user==null?"NULL USER":user.toString());
+		log.info("AuthenticationInfo user:{}",user==null?"NULL USER":user.toString());
 		if(null!=user) {
 			return new SimpleAuthenticationInfo(user.getPhone(),user.getPassword(),getName());
 		}

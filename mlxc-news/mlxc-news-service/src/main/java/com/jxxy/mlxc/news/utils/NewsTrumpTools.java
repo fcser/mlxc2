@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import com.jxxy.mlxc.news.api.model.NewsDO;
@@ -29,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NewsTrumpTools {
 
-	private StringRedisTemplate redis;
+	private RedisTemplate redis;
 	//一周的时间
 	private final long ONE_WEEK_SECONDS=7*86400;
 	//投票分数基数
@@ -41,7 +42,7 @@ public class NewsTrumpTools {
 	public static final String SCORE="score:";
 	public static final String NEWS="news:";
 	
-	public NewsTrumpTools(StringRedisTemplate redis) {
+	public NewsTrumpTools(RedisTemplate redis) {
 		this.redis=redis;
 	}
 	public NewsTrumpTools() {
@@ -53,6 +54,10 @@ public class NewsTrumpTools {
 	 * @Return:String
 	 */
 	public String postNews(NewsDO newsDO) {
+		return postNews(newsDO,getTime());
+	}
+
+	private String postNews(NewsDO newsDO,String time){
 		//设置文章ID
 		String newsId=newsDO.getId().toString();
 		String news=NEWS+newsId;
@@ -66,7 +71,7 @@ public class NewsTrumpTools {
 		hm.put("title", newsDO.getTitle());
 		hm.put("intro", newsDO.getIntro());
 		hm.put("id", newsDO.getId().toString());
-		hm.put("time", getTime());
+		hm.put("time", time);
 		hm.put("votes", "1");
 		redis.opsForHash().putAll(news, hm);
 		//将文章添加到根据时间排序和评分的集合里面
@@ -87,9 +92,41 @@ public class NewsTrumpTools {
 		redis.opsForZSet().remove(TIME, NEWS+newsId);
 		log.info(NEWS+newsId+"删除成功！");
 	}
+
+	public boolean reBuildRedis(NewsDO newsDO){
+		postNews(newsDO,new SimpleDateFormat("yyyyMMddHHmmss").format(newsDO.getCreateTime()));
+		return newsVote(newsDO.getId(),newsDO.getGrade());
+	}
+	/**
+	 * 重新建立缓存,投票
+	 * @param newsId 新闻的id
+	 * @param votes
+	 * @return
+	 */
+	private boolean newsVote(Long newsId,int votes){
+		String news=NEWS+newsId.toString();
+		if(!newsExists(news)){
+			return false;
+		}
+		redis.opsForZSet().incrementScore(SCORE, news, VOTE_SCORE*votes);
+		redis.opsForHash().increment(news, "votes", votes);
+		return true;
+	}
+
+	/**
+	 * 检测缓存是否正常
+	 * @return
+	 */
+	public boolean newsExists(String news){
+		Map<Object, Object> newsData=redis.opsForHash().entries(news);
+		if(newsData==null||newsData.isEmpty()){
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * 用户文章投票
-	 * @Param:用户id和新闻id
+	 * @Param:用户id和新闻idnews
 	 * @Return:void
 	 */
 	public String newsVote(String userId,String newsId) {

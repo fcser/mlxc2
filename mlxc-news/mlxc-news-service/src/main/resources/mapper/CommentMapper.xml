@@ -36,7 +36,7 @@
         set good_num=good_num+1
         where id=#{id}
     </update>
-    <select id="countComments" resultType="java.lang.Integer" parameterType="Integer">
+    <select id="countComments" resultType="java.lang.Integer" parameterType="Long">
         select count(t.id)
         from comment t
         left join comment_depend c on c.comment_id=t.id

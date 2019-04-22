@@ -10,6 +10,7 @@ import com.jxxy.mlxc.news.api.service.NewsService;
 import com.jxxy.mlxc.shiro.config.AuthUtil;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/mlxc")
+@Slf4j
 public class NewsController {
     @Reference(version = "1.0.0")
     private NewsService newsService;
@@ -69,14 +71,15 @@ public class NewsController {
     }
     @PostMapping("/manage/updateNews.do")
     @ResponseBody
-    public Object updateNews(NewsDto news){
+    public Object updateNews(@RequestBody  NewsDto news){
+        log.info("newsDTO:{}",news.toString());
         news.setUpdateUserId(AuthUtil.getUserId());
         newsService.update(news);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
     @DeleteMapping("/manage/delNews.do")
     @ResponseBody
-    public Object deleteNews(Long newsId){
+    public Object deleteNews(@RequestParam("newsId") Long newsId){
         newsService.delete(newsId);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
@@ -133,6 +136,17 @@ public class NewsController {
     @ResponseBody
     public Object getNewsByTime(@ModelAttribute NewsQuery newsQuery){
         newsQuery.setCreateUserId(AuthUtil.getUserId());
+        log.info("newsQuery:{}",newsQuery.toString());
         return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getNewsByTime(newsQuery));
+    }
+
+    /**
+     * 获取新闻数据
+     * @return
+     */
+    @GetMapping("/getNewsdata.do")
+    @ResponseBody
+    public Object getNewsDate(@RequestParam("newsId") Long newsId){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getNewsData(newsId));
     }
 }

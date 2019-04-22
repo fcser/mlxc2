@@ -53,7 +53,7 @@
 	</delete> 
 	<!-- 用于登录 -->
 	<select id="getUserByPhone" resultMap="userMap" parameterType="String">
-		select t.id,t.phone,t.password,t.user_name,u.role_name
+		select t.id,t.phone,t.password,t.user_name,t.role,u.role_name
 		from users t
 		left join role u on t.role=u.id
 		where phone=#{phone}
