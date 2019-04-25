@@ -22,4 +22,6 @@ public class MyCommentsDto extends BaseDto {
     private String userName;
     /**留言内容*/
     private String content;
+    /**父留言内容*/
+    private String fatherContent;
 }

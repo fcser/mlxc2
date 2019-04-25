@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 
+import com.jxxy.mlxc.news.api.constant.IsCall;
 import com.mlxc.basic.dto.BaseDto;
 
 import lombok.Getter;
@@ -50,5 +51,5 @@ public class ActiveDto extends BaseDto{
 	/**
 	 * 是否启用电话提醒,默认0，不通知
 	 */
-	private Integer isCall;
+	private Integer isCall= IsCall.NOTCALL.getType();
 }

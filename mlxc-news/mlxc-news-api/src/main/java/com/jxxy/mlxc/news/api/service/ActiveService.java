@@ -38,4 +38,11 @@ public interface ActiveService{
 	 * @return
 	 */
 	PageInfo<ActiveDto> findActives(ActiveQuery activeQuery);
+
+	/**
+	 * 短信提醒开关
+	 * @param activeId
+	 * @param isOpen
+	 */
+	boolean openMsg(long activeId,int isOpen);
 }

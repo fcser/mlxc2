@@ -24,21 +24,6 @@ import java.util.Set;
  */
 @Slf4j
 public class RolesFilter extends RolesAuthorizationFilter {
-    @Override
-    public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
-
-        Subject subject = getSubject(request, response);
-        String[] rolesArray = (String[]) mappedValue;
-        log.info("rolesArray:{}",rolesArray.length);
-        if (rolesArray == null || rolesArray.length == 0) {
-            //no roles specified, so nothing to check - allow access.
-            return true;
-        }
-        log.info("rolesArray:{}",rolesArray[0]);
-        Set<String> roles = CollectionUtils.asSet(rolesArray);
-        log.info("has Role:{}",subject.hasAllRoles(roles));
-        return subject.hasAllRoles(roles);
-    }
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response,

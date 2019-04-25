@@ -7,6 +7,7 @@ import com.jxxy.mlxc.news.api.service.CommentService;
 import com.jxxy.mlxc.shiro.config.AuthUtil;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @Version: 1.0.0
  */
 @Controller
+@Slf4j
 @RequestMapping("/mlxc")
 public class CommentController {
     @Reference(version = "1.0.0")
@@ -34,6 +36,7 @@ public class CommentController {
     @ResponseBody
     public Object addComment(@RequestBody CommentDto dto){
         dto.setCommentUserId(AuthUtil.getUserId());
+        log.info("dto；{}",dto);
         commentService.insert(dto);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }

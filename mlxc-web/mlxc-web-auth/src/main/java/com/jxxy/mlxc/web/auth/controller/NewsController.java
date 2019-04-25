@@ -77,6 +77,19 @@ public class NewsController {
         newsService.update(news);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
+
+    /**
+     * 文章审核
+     * @param news
+     * @return
+     */
+    @PostMapping("/manage/checkArticle.do")
+    @ResponseBody
+    public Object checkArticle(@RequestBody  NewsDto news){
+        news.setUpdateUserId(AuthUtil.getUserId());
+        newsService.checkArticle(news);
+        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+    }
     @DeleteMapping("/manage/delNews.do")
     @ResponseBody
     public Object deleteNews(@RequestParam("newsId") Long newsId){
@@ -135,7 +148,7 @@ public class NewsController {
     @GetMapping("/getNewsByTime.do")
     @ResponseBody
     public Object getNewsByTime(@ModelAttribute NewsQuery newsQuery){
-        newsQuery.setCreateUserId(AuthUtil.getUserId());
+        //newsQuery.setCreateUserId(AuthUtil.getUserId());
         log.info("newsQuery:{}",newsQuery.toString());
         return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getNewsByTime(newsQuery));
     }
@@ -148,5 +161,15 @@ public class NewsController {
     @ResponseBody
     public Object getNewsDate(@RequestParam("newsId") Long newsId){
         return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getNewsData(newsId));
+    }
+
+    /**
+     * 用于活动绑定
+     * @return
+     */
+    @GetMapping("/manage/getSimpleNews.do")
+    @ResponseBody
+    public Object getSimpleNews(){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,newsService.getSimpleNews(AuthUtil.getUserId()));
     }
 }

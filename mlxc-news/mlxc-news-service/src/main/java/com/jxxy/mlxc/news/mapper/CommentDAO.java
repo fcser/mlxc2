@@ -50,6 +50,8 @@ public interface CommentDAO {
      * 修改点赞量
      */
     void updateGoods(Long id);
+
+    void notReply(@Param("id") Long commentId);
     /**
      * 查看一级评论总数
      * @return

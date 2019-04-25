@@ -18,8 +18,9 @@
         <result property="newsId" jdbcType="INTEGER" column="news_id"/>
         <result property="newsTitle" jdbcType="VARCHAR" column="new_title"/>
         <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="fatherContent" jdbcType="VARCHAR" column="father_content"/>
     </resultMap>
-    <insert id="insert" parameterType="commentDO">
+    <insert id="insert" parameterType="commentDO" useGeneratedKeys="true" keyProperty="id">
         insert into comment(news_id,content,comment_user_id) values (#{newsId},#{content},#{commentUserId})
     </insert>
     <insert id="insertDependency" parameterType="commentDependDO">
@@ -34,6 +35,11 @@
     <update id="updateGoods">
         update comment
         set good_num=good_num+1
+        where id=#{id}
+    </update>
+    <update id="notReply" parameterType="Long">
+        update comment
+        set should_reply=1
         where id=#{id}
     </update>
     <select id="countComments" resultType="java.lang.Integer" parameterType="Long">
@@ -62,25 +68,32 @@
         order by t.good_num desc
         LIMIT 0,100
     </select>
-    <select id="getMyComments" resultMap="commentMap" parameterType="commentQuery">
-        select distinct t.news_id,n.title as new_title,t.id,t.content,t.create_time,u.user_name
+    <!--获取我的未回复的评论,评论数最深两级-->
+    <select id="getMyComments" resultMap="commentMap" parameterType="com.jxxy.mlxc.news.api.query.CommentQuery">
+        select distinct t.news_id,n.title as new_title,t.id,t.content,t.create_time,u.user_name,null as father_content
         from comment t
         left join users u on u.id=t.comment_user_id
         left join news n on n.id=t.news_id
-        /**下面两句是获取作者回复*/
-        left join comment_depend d on t.id=d.comment_id
-        where d.father_comment_id in (select a.id from comment a where a.comment_user_id=#{userId}
-        and n.create_user_id=#{createUserId}
-        <if test="newsId!=null and newsId!=0">
-            and  n.id=#{newsId}
+        left join comment_depend c on c.father_comment_id=t.id
+        where n.create_user_id=#{createUserId} and u.id!=#{createUserId} and c.comment_id is null and t.should_reply=0
+        <if test="newsId!=null">
+            and t.news_id=#{newsId}
         </if>
-        <if test="newsTitle!=null and newsTitle!=''">
-            and n.title LIKE CONCAT('%', #{newsTitle}, '%')
-        </if>
-        <if test="userName!=null and userName!=''">
-            and u.user_name LIKE CONTENT('%',#{userName},'%')
+        <!--查询出作者给我回复的留言，父子留言join在一起，-->
+        union (select t.news_id,n.title as new_title,t.id,t.content,t.create_time,u.user_name,t2.content as father_content
+        /*父留言*/
+        from comment t2
+        left join comment_depend c on c.father_comment_id=t2.id
+        /*子留言，若父留言不为空，子留言的子留言为空，则说明这是条未回复的留言*/
+        left join comment t on t.id=c.comment_id
+        left join users u on u.id=t.comment_user_id
+        left join news n on n.id=t.news_id
+        left join comment_depend c2 on c2.father_comment_id=t.id
+        where c.comment_id is not null and t2.comment_user_id=#{createUserId} and c2.comment_id is null and t.should_reply=0
+        <if test="newsId!=null">
+            and t.news_id=#{newsId}
         </if>
         order by t.create_time desc
+        )
     </select>
-
 </mapper>

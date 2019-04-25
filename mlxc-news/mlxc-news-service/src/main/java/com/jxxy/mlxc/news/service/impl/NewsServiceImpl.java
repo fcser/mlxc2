@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.jxxy.mlxc.news.api.constant.AuditFlag;
 import com.jxxy.mlxc.news.api.constant.Type;
 import com.jxxy.mlxc.news.api.dto.NewsDataDto;
+import com.jxxy.mlxc.news.api.dto.SimpleNewsDto;
 import com.jxxy.mlxc.news.api.service.CommentService;
 import com.jxxy.mlxc.news.mapper.CommentDAO;
 import com.mlxc.basic.dto.BaseDto;
@@ -50,7 +51,7 @@ import com.mlxc.basic.dto.BaseDO;
 public class NewsServiceImpl implements NewsService {
 
 	@Autowired
-	NewsDAO newsDAO;
+	private NewsDAO newsDAO;
 	@Autowired
 	NewsConverter newsConverter;
 	@Autowired
@@ -161,7 +162,9 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public PageInfo<NewsDto> getNewsByTime(NewsQuery newsQuery) {
-		newsQuery.setAuditFlag(AuditFlag.PASS.getType());
+		if(newsQuery.getAuditFlag()==null) {
+			newsQuery.setAuditFlag(AuditFlag.PASS.getType());
+		}
 		PageHelper.startPage(newsQuery.getPageNum(),newsQuery.getPageSize());
 		List<NewsDto> news=newsDAO.getNewsByTime(newsQuery);
 		return new PageInfo<>(news);
@@ -177,6 +180,19 @@ public class NewsServiceImpl implements NewsService {
 		NewsDataDto dto=newsDAO.getNewsData(newsId);
 		dto.setCommentNum(commentDAO.countComments(newsId));
 		return dto;
+	}
+
+	@Override
+	public void checkArticle(NewsDto newsDto) {
+		if(AuditFlag.PASS.getType().equals(newsDto.getAuditFlag())) {
+			newsDAO.update(newsDto);
+		}
+		newsDAO.checkNews(newsDto.getId(),newsDto.getAuditFlag());
+	}
+
+	@Override
+	public List<SimpleNewsDto> getSimpleNews(Long userId) {
+		return newsDAO.getSimpleNews(userId);
 	}
 
 

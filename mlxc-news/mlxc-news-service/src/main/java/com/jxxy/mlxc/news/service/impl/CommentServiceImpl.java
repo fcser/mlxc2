@@ -13,6 +13,7 @@ import com.jxxy.mlxc.news.api.service.CommentService;
 import com.jxxy.mlxc.news.api.service.NewsService;
 import com.jxxy.mlxc.news.converter.CommentConverter;
 import com.jxxy.mlxc.news.mapper.CommentDAO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,21 +30,32 @@ import java.util.List;
  */
 @Service(version="1.0.0",interfaceClass= CommentService.class)
 @Component
+@Slf4j
 @Transactional(rollbackFor=Exception.class)
 public class CommentServiceImpl implements CommentService {
 
+    private static final Integer NOTREPLY=1;
     @Autowired
     private CommentDAO commentDAO;
     @Autowired
     private CommentConverter commentConverter;
     @Override
     public void insert(CommentDto commentDto) {
+        //不回复留言
+        log.info("commentDto:{}",commentDto.toString());
+        if(NOTREPLY.equals(commentDto.getShouldReply())){
+            log.debug("not in");
+            commentDAO.notReply(commentDto.getFatherCommentId());
+            return;
+        }
         CommentDO commentDO=commentConverter.toCommentDO(commentDto);
         commentDAO.insert(commentDO);
         //子评论插入依赖
         if(commentDto.getFatherCommentId()!=null&&commentDto.getFatherCommentId()>0){
             //子评论
             CommentDependDO commentDependDO=commentConverter.toCommentDependDO(commentDto);
+            commentDependDO.setCommentId(commentDO.getId());
+            log.info("sd:{}",commentDependDO);
             commentDAO.insertDependency(commentDependDO);
         }
     }

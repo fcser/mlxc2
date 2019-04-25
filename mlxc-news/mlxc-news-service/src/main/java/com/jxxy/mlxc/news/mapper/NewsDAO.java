@@ -6,6 +6,7 @@ package com.jxxy.mlxc.news.mapper;
 import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.news.api.dto.NewsDataDto;
 import com.jxxy.mlxc.news.api.dto.NewsDto;
+import com.jxxy.mlxc.news.api.dto.SimpleNewsDto;
 import com.jxxy.mlxc.news.api.model.NewsDO;
 import com.jxxy.mlxc.news.api.query.NewsQuery;
 import com.mlxc.basic.mapper.BaseDAO;
@@ -71,4 +72,19 @@ public interface NewsDAO extends BaseDAO<NewsDto> {
 	 * @return
 	 */
 	NewsDataDto getNewsData(Long newsId);
+
+	/**
+	 * 文章审核情况
+	 * @param newsId
+	 * @param auditFlag
+	 * @return
+	 */
+	int checkNews(@Param("newsId") Long newsId,@Param("auditFlag") Integer auditFlag);
+
+	/**
+	 * 获取简单新闻列表
+	 * @param userId
+	 * @return
+	 */
+	List<SimpleNewsDto> getSimpleNews(@Param("userId") Long userId);
 }

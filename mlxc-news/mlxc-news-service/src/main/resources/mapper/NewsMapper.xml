@@ -50,9 +50,15 @@
  		<if test="content!=null">
  			,t.content=#{content}
  		</if>
- 		<if test="grade!=null">
+ 		<!--<if test="grade!=null">
  			,t.grade=#{grade}
- 		</if>
+ 		</if>-->
+ 		<if test="newsType!=null">
+			,t.news_type=#{newsType}
+		</if>
+		<!--<if test="auditFlag!=null">
+			,t.audit_flag=#{auditFlag}
+		</if>-->
  		where t.id=#{id}
  	</update>
  	<update id="insertActiveId" parameterType="com.jxxy.mlxc.news.api.model.NewsDO">
@@ -62,6 +68,9 @@
  	</update>
 	<update id="updateGood" parameterType="Long">
 		update news t set t.grade=t.grade+1 where t.id=#{newsId}
+	</update>
+	<update id="checkNews">
+		update news t set t.audit_flag=#{auditFlag} where t.id=#{newsId}
 	</update>
 	<delete id="delete" parameterType="Long">
  		delete from news where id=#{id}
@@ -155,5 +164,10 @@
 		select distinct t.grade as goodNum,count(c.id) as collectionNum from news t
 		right join collection c on t.id=c.news_id
 		where t.id=#{newsId}
+	</select>
+    <select id="getSimpleNews" resultType="com.jxxy.mlxc.news.api.dto.SimpleNewsDto">
+		select t.id,t.title
+		from news t
+		where t.create_user_id=#{userId} and t.active_id is null
 	</select>
 </mapper>

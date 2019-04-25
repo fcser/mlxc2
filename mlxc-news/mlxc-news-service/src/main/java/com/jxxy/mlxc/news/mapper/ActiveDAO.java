@@ -6,6 +6,7 @@ package com.jxxy.mlxc.news.mapper;
 import com.jxxy.mlxc.news.api.dto.ActiveDto;
 import com.jxxy.mlxc.news.api.dto.ActiveUserDto;
 import com.mlxc.basic.mapper.BaseDAO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -35,4 +36,12 @@ public interface ActiveDAO extends BaseDAO<ActiveDto>{
 	 * @return
 	 */
 	List<ActiveUserDto> selectActiveByTime(String date);
+
+	/**
+	 * 短信提醒开关
+	 * @param activeId
+	 * @param openCode
+	 * @return
+	 */
+	int openMsg(@Param("activeId") Long activeId,@Param("openCode")int openCode);
 }

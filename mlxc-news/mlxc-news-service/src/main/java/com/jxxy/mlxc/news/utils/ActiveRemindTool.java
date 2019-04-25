@@ -39,10 +39,14 @@ public class ActiveRemindTool {
     private ActiveDAO activeDAO;
 
 
-    private int beforeHour;
-    @Value("${mlxc.beforeHour}")
+    private static int beforeHour;
+    @Value("${mlxc.beforeHour:10}")
     public void setBeforeHour(int beforeHour){
         this.beforeHour=beforeHour;
+    }
+
+    public static int getBeforeHour(){
+        return beforeHour;
     }
     /**
      * 每一个小时执行一次定时器

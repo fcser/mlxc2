@@ -21,4 +21,6 @@ public class CommentDto extends BaseDto {
     private Integer goodNum;
     /**依赖的父评论的id*/
     private Long fatherCommentId;
+    /**是否恢复*/
+    private Integer shouldReply;
 }

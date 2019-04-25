@@ -5,6 +5,7 @@ package com.jxxy.mlxc.news.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jxxy.mlxc.news.api.constant.IsCall;
 import com.jxxy.mlxc.news.api.query.ActiveQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,6 +63,14 @@ public class ActiveServiceImpl implements ActiveService{
 		PageHelper.startPage(activeQuery.getPageNum(), activeQuery.getPageSize());
 		List<ActiveDto> list=activeDAO.find(activeQuery);
 		return new PageInfo<>(list);
+	}
+
+	@Override
+	public boolean openMsg(long activeId, int isOpen) {
+		if(!(IsCall.NOTCALL.getType().equals(isOpen)||IsCall.CALL.getType().equals(isOpen))){
+			return false;
+		}
+		return activeDAO.openMsg(activeId,isOpen)==0?false:true;
 	}
 
 }

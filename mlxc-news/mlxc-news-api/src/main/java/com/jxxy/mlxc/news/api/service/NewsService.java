@@ -8,6 +8,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.news.api.dto.NewsDataDto;
 import com.jxxy.mlxc.news.api.dto.NewsDto;
+import com.jxxy.mlxc.news.api.dto.SimpleNewsDto;
 import com.jxxy.mlxc.news.api.model.NewsDO;
 import com.jxxy.mlxc.news.api.query.NewsQuery;
 import com.mlxc.basic.dto.BaseDO;
@@ -101,5 +102,23 @@ public interface NewsService {
 	 */
 	List<NewsDto> getNews();
 
+	/**
+	 * 获取文章用户评论，点赞，收藏数据
+	 * @param newsId
+	 * @return
+	 */
 	NewsDataDto getNewsData(Long newsId);
+
+	/**
+	 * 文章审核
+	 * @param newsDto
+	 */
+	void checkArticle(NewsDto newsDto);
+
+	/**
+	 * 获取新闻列表，供绑定活动
+	 * @param userId
+	 * @return
+	 */
+	List<SimpleNewsDto> getSimpleNews(Long userId);
 }

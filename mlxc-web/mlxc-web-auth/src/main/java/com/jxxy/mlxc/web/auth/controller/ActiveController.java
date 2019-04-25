@@ -46,6 +46,7 @@ public class ActiveController {
     @PostMapping("/manage/active/insert.do")
     @ResponseBody
     public Object insertActive(@RequestBody ActiveDto activeDto){
+        activeDto.setCreateUserId(AuthUtil.getUserId());
         activeService.insert(activeDto);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
@@ -110,5 +111,18 @@ public class ActiveController {
     @ResponseBody
     public Object getEntryList(@ModelAttribute EntryQuery entryQuery){
         return new BaseReturnDto<>(ReturnCode.SUCCESS,entryService.findActiveUsers(entryQuery));
+    }
+
+    /**
+     * 是否开启短信提醒
+     * @param activeId
+     * @param openFlag
+     * @return
+     */
+    @GetMapping("/manage/entry/openMsg.do")
+    @ResponseBody
+    public Object openMsg(@RequestParam(value = "activeId",required = true) Long activeId,
+                          @RequestParam(value="openFlag",required = true) int openFlag){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,activeService.openMsg(activeId,openFlag));
     }
 }

@@ -21,4 +21,6 @@ public class CommentDO extends BaseDO {
     private String content;
     private Long CommentUserId;
     private Integer goodNum;
+    //是否应该回复
+    private Integer shouldReply;
 }
