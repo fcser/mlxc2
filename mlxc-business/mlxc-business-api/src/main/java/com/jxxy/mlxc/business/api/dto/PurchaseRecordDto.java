@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * @Project:mlxc-business-api
  * @Class:PurchaseRecordDto.java
@@ -39,4 +41,6 @@ public class PurchaseRecordDto extends BaseDto {
 	 */
 	private Double sum;
 	private String decription;
+	private Integer useFlag;
+	private Date endDate;
 }

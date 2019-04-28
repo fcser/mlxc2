@@ -9,7 +9,7 @@
  		<result column="decription" jdbcType="VARCHAR" property="decription"/>
  		<result column="stock" jdbcType="INTEGER" property="stock"/>
 		<result column="price" jdbcType="DOUBLE" property="price"/>
- 		<result column="discount" jdbcType="INTEGER" property="discount"/>
+ 		<result column="old_price" jdbcType="DOUBLE" property="oldPrice"/>
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
 		<result column="version" jdbcType="INTEGER" property="version"/>

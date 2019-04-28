@@ -14,7 +14,7 @@ spring:
     druid:
       url: jdbc:mysql://129.204.56.246:3306/mlxc?useUnicode=true&characterEncoding=UTF-8&generateSimpleParameterMetadata=true
       username: root
-      password: 123456
+      password: wbdheike
       driver-class-name: com.mysql.jdbc.Driver
       initial-size: 5
       max-active: 100

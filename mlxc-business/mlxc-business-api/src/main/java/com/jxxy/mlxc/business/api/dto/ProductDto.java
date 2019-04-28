@@ -38,10 +38,11 @@ public class ProductDto extends BaseDto{
 	 * 原价
 	 */
 	private Double price=0.0;
+	private Double oldPrice;
 	/**
 	 * 折扣
 	 */
-	private Integer discount=10;
+	//private Integer discount=10;
 	private Double nowPrice;
 	/**
 	 * 订单量

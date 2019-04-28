@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * @Project:mlxc-business-api
  * @Class:RecordsDto.java
@@ -28,6 +30,7 @@ public class RecordsDto extends BaseDto {
 	 */
 	private static final long serialVersionUID = -3440162711601603269L;
 
+	private String userId;
 	private String userName;
 	private String userPhone;
 	private Long productId;
@@ -48,4 +51,6 @@ public class RecordsDto extends BaseDto {
 	 * 总价
 	 */
 	private Double sum;
+	private Integer useFlag;
+	private Date endDate;
 }

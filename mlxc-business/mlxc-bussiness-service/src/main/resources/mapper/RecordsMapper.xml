@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jxxy.mlxc.business.mapper.PurchaseRecordDao">
-    <resultMap id="RecordMap" type="com.jxxy.mlxc.news.api.dto.RecordsDto">
+    <resultMap id="RecordMap" type="com.jxxy.mlxc.business.api.dto.RecordsDto">
         <result column="id" jdbcType="BIGINTG" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
@@ -14,6 +14,8 @@
         <result column="count" jdbcType="INTEGER" property="count"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="decription" jdbcType="VARCHAR" property="decription"/>
+        <result column="use_flag" jdbcType="INTEGER" property="useFlag"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
     </resultMap>
     <insert id="insertPurchaseRecord" parameterType="com.jxxy.mlxc.business.api.dto.PurchaseRecordDto" useGeneratedKeys="true" keyProperty="id">
         insert into purchase_record(user_id,product_id,price,sum,count,decription)
@@ -29,13 +31,13 @@
             and u.phone like concat('%',#{userPhone},'%')
         </if>
     </select>
-    <select id="RecordsQuery" parameterType="com.jxxy.mlxc.business.api.query.RecordsQuery" resultMap="RecordMap">
+    <!--<select id="RecordsQuery" parameterType="com.jxxy.mlxc.business.api.query.RecordsQuery" resultMap="RecordMap">
         select t.id,t.user_id,u.user_name,t.product_id,p.name as product_name,t.price,t.sum,t.count,t.create_time,t.decription
         from purchase_record t
         left join product p on p.id=t.product_id
         left join users u on t.user_id=u.id
         where t.user_id=#{userId}
-    </select>
+    </select>-->
     <select id="countRecords" resultType="Integer">
         select count(t.id)
         from purchase_record t
