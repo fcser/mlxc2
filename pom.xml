@@ -130,8 +130,20 @@
 		<module>mlxc-business</module>
 		<module>mlxc-news</module>
 		<module>mlxc-article</module>
-    <module>mlxc-shiro</module>
-    <module>mlxc-web</module>
+    	<module>mlxc-shiro</module>
+    	<module>mlxc-web</module>
 		<module>websocket</module>
 	</modules>
+	<!--<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>-->
 </project>

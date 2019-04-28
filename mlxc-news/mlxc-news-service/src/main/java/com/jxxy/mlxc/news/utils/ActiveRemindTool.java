@@ -1,5 +1,11 @@
 package com.jxxy.mlxc.news.utils;
 
+import com.ctrip.framework.apollo.Config;
+import com.ctrip.framework.apollo.model.ConfigChange;
+import com.ctrip.framework.apollo.model.ConfigChangeEvent;
+import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
+import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.jxxy.mlxc.news.api.dto.ActiveUserDto;
 import com.jxxy.mlxc.news.mapper.ActiveDAO;
 import com.mlxc.basic.util.SmsUtil;
@@ -29,6 +35,19 @@ import java.util.List;
 @Configuration
 @Slf4j
 public class ActiveRemindTool {
+
+    @ApolloConfig("application")
+    private Config config; //inject config for namespace application
+    //config change listener for namespace application
+    @ApolloConfigChangeListener("application")
+    private void anotherOnChange(ConfigChangeEvent changeEvent) {
+
+        ConfigChange change = changeEvent.getChange("test");
+        System.out.println(String.format("Found change - key: %s, oldValue: %s,"
+                + " newValue: %s, changeType: %s", change.getPropertyName(), change.getOldValue(), change.getNewValue(), change.getChangeType()));
+    }
+
+
     /**
      * 实现思路：定时器+阻塞队列，队列生产者为所有活动创建线程，插入活动信息，根据时间对阻塞对列进行排序
      * 活动时间开始前24小时，发送短信，并取出下一个活动，创建定时任务。可能不可行

@@ -1,0 +1,61 @@
+server:
+  port: 8080
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://129.204.56.246:3306/mlxc?useUnicode=true&characterEncoding=UTF-8&generateSimpleParameterMetadata=true
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: false
+  application:
+    name: web-server
+  dubbo:
+    registry:
+      address: zookeeper://172.16.0.8:2181?backup=172.16.0.8:2182,172.16.0.8:2183
+    consumer:
+      check: false
+    #负载均衡，轮询
+    reference:
+      loadbalance: roundrobin
+    protocal:
+      name: dubbo
+      port: 20881
+  redis:
+    jedis:
+      pool:
+        min-idle: 5
+        max-active: 20
+        max_idle: 10
+        max-wait: 10
+    port: 6379
+    host: 129.204.56.246
+    password: 123456
+    timeout: 1000
+  cache:
+    type: REDIS
+    cache-names: redisCache
+mlxc:
+  #不开启shiro
+  isShiroEnable: true
+  shiro:
+    sessionTime: 1800000
+    noFilter: /mlxc/**
+    authFilter: /mlxc/desk/**
+    adminFilter: /mlxc/manage/**
+    businessFilter: /mlxc/manage/business/**
+    noLoginUrl: /mlxc/noLogin.do
+    noRoleUrl: /mlxc/noRoles.do
+    #isOpen: true

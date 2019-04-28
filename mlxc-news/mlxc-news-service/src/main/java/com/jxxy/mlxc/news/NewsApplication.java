@@ -3,6 +3,8 @@
  */
 package com.jxxy.mlxc.news;
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
+import com.jxxy.mlxc.news.utils.ActiveRemindTool;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,6 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -27,8 +31,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 		sqlSessionFactoryRef="sqlSessionFactory")
 @EnableDubboConfiguration
 @EnableScheduling//开启定时器
+/*@Configuration
+@EnableApolloConfig*/
 public class NewsApplication {
 
+	/*public ActiveRemindTool activeRemindTool(){
+		return new ActiveRemindTool();
+	}*/
 	public static void main(String[] args) {
 		SpringApplication.run(NewsApplication.class, args);
 	}

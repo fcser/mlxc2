@@ -27,7 +27,8 @@ spring:
   dubbo:
     server: true
     registry:
-      address: zookeeper://127.0.0.1:2181
+      #address: zookeeper://127.0.0.1:2181
+      address: zookeeper://172.16.0.8:2181?backup=172.16.0.8:2182,172.16.0.8:2183
     protocol:
       name: dubbo
       port: 20880
@@ -49,5 +50,8 @@ mlxc:
   #开启活动开始前短信提醒功能
   isSendActiveMsgEnable: true
   #设置活动前多久提醒
-  #beforeHour: 24
+  beforeHour: 24
+logging:
+  path: /data/mlxc-server/mlxc-news/logs
+  file: myLog.log
 

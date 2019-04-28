@@ -37,7 +37,7 @@
  	2.查询出该用户所报名的活动
  	-->
  	<select id="findUserActives" parameterType="com.jxxy.mlxc.news.api.query.EntryQuery" resultMap="ActiveMap">
- 		select t.id,t.active_name,t.place,t.time,t.intro,t.plotter,t.description,
+ 		select t.id,t.active_name,t.place,t.time,t.intro,t.plotter,t.decription,
  		t.create_user_id,a.user_name,t.create_time
  		from active t
  		left join users a on t.create_user_id=a.id

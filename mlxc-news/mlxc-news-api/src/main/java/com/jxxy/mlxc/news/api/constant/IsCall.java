@@ -1,7 +1,5 @@
 package com.jxxy.mlxc.news.api.constant;
 
-import org.apache.zookeeper.data.ACL;
-
 /**
  * @Project:mlxc-parent
  * @Class:IsCall

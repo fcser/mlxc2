@@ -14,15 +14,15 @@
  		<result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
  		<result column="user_name" jdbcType="VARCHAR" property="createUserName"/>
  		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
- 		<!-- <result column="is_call" jdbcType="INTEGER" property="isCall"/> -->
+ 		<result column="is_call" jdbcType="INTEGER" property="isCall"/>
  	</resultMap>
  	<insert id="insert" parameterType="com.jxxy.mlxc.news.api.model.ActiveDO">
  		<selectKey resultType="Long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into active(active_name,place,time,intro,plotter,decription,create_user_id,is_call)
+		insert into active(active_name,place,time,intro,plotter,decription,create_user_id)
 		values
-		(#{activeName},#{place},#{time},#{intro},#{plotter},#{decription},#{createUserId},#{isCall})
+		(#{activeName},#{place},#{time},#{intro},#{plotter},#{decription},#{createUserId})
  	</insert>
  	<update id="update" parameterType="com.jxxy.mlxc.news.api.model.ActiveDO">
  		update active t set
@@ -51,14 +51,14 @@
  	3.根据新闻id，查询出活动-->
  	<select id="select" parameterType="Long" resultMap="ActiveMap">
  		select t.id,t.active_name,t.place,t.time,t.intro,t.plotter,t.decription,
- 		t.create_user_id,a.user_name,t.create_time
+ 		t.create_user_id,a.user_name,t.create_time,t.is_call
  		from active t
  		left join users a on t.create_user_id=a.id
  		where t.id=#{id}
  	</select>
  	<select id="find" parameterType="com.jxxy.mlxc.news.api.query.ActiveQuery" resultMap="ActiveMap">
  		select t.id,t.active_name,t.place,t.time,t.intro,t.plotter,t.decription,
- 		t.create_user_id,a.user_name,t.create_time
+ 		t.create_user_id,a.user_name,t.create_time,t.is_call
  		from active t
  		left join users a on t.create_user_id=a.id
  		where 1=1
@@ -68,7 +68,7 @@
  	</select>
  	<select id="selectByNewsId" parameterType="Long" resultMap="ActiveMap">
  		select t.id,t.active_name,t.place,t.time,t.intro,t.plotter,t.decription,
- 		t.create_user_id,a.user_name,t.create_time
+ 		t.create_user_id,a.user_name,t.create_time,t.is_call
  		from active t
  		left join users a on t.create_user_id=a.id
  		inner join news b on b.active_id=id
@@ -79,6 +79,6 @@
  		from users u
  		left join entry e on e.entry_user_id=u.id
 		left join active t on e.active_id=t.id
- 		where date_format(t.time,'%Y-%m-%d %H')=#{date}
+ 		where date_format(t.time,'%Y-%m-%d %H')=#{date} and t.is_call=1
 	</select>
 </mapper>

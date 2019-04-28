@@ -1,11 +1,13 @@
 spring:
   profiles:
     active: dev
-apollo:
-  bootstrap:
-    enabled: true
-    eagerload:
-      enabled: true
-  meta: http://47.101.200.40:8080
-app:
-  id: mlxc-culture
+#apollo:
+  #bootstrap:
+    #enabled: true
+    #eagerload:
+      #enabled: true
+  #meta: http://47.101.200.40:8080
+#app:
+  #id: mlxc-culture
+
+

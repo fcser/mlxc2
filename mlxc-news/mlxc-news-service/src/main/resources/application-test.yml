@@ -1,49 +1,54 @@
-spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      url: jdbc:mysql://129.204.56.246:3306/mlxc?useUnicode=true&characterEncoding=UTF-8&generateSimpleParameterMetadata=true
-      username: root
-      password: 123456
-      stat-view-servlet:
-        login-username: admin
-        login-password: admin
-        enabled: true
-        url-pattern: /druid/*
-      initial-size: 5
-      max-active: 20
-      min-idle: 5
-      max-wait: 60000
-      query-timeout: 90
-      validation-query: SELECT 1 FROM DUAL
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      filters: stat,wall,log4j
-      filter:
-        stat:
-          log-slow-sql: true
-          slow-sql-millis: 20000
-          db-type: mysql
-          merge-sql: false
-        wall:
-          config:
-            delete-allow: false
-            drop-table-allow: false
-          enabled: true
-          db-type: mysql
-                 # 是否缓存PreparedStatement. PSCache对支持游标的数据库性能提升巨大，比如说oracle.在mysql下建议关闭.
-      pool-prepared-statements: false
-                # 每个连接上PSCache的大小
-      max-pool-prepared-statement-per-connection-size: 20
-                # 合并多个DruidDataSource的监控数据
-      use-global-data-source-stat: true
 server:
-  port: 8080
+  port: 8081
 pagehelper:
   helper-dialect: mysql
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  #mybatis扫描别名包，与注解@alias联用
+  type-aliases-package: com.jxxy.mlxc.news.api
+spring:
+  application:
+    name: news-service
+  datasource:
+    druid:
+      url: jdbc:mysql://129.204.56.246:3306/mlxc?useUnicode=true&characterEncoding=UTF-8&generateSimpleParameterMetadata=true
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: false
+  dubbo:
+    server: true
+    registry:
+      address: zookeeper://129.204.56.246:2181?backup=129.204.56.246:2182,129.204.56.246:2183
+      #address: zookeeper://129.204.56.246:2081?backup=129.204.56.246:2082,129.204.56.246:2083
+    protocol:
+      name: dubbo
+      port: 20880
+  redis:
+    jedis:
+      pool:
+        min-idle: 5
+        max-active: 20
+        max_idle: 10
+        max-wait: 10
+    port: 6379
+    host: 129.204.56.246
+    password: zym123456
+    timeout: 1000
+  cache:
+    type: REDIS
+    cache-names: redisCache
+mlxc:
+  #开启活动开始前短信提醒功能
+  isSendActiveMsgEnable: true
+  #设置活动前多久提醒
+  beforeHour: 24
+
