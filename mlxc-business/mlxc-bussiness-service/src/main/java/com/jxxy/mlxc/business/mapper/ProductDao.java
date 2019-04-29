@@ -5,6 +5,7 @@ package com.jxxy.mlxc.business.mapper;
 
 import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.jxxy.mlxc.business.api.dto.ProductDto;
@@ -20,6 +21,7 @@ import java.util.List;
  * @Version: 1.0.0 
  *
  */
+@Mapper
 public interface ProductDao {
 
 	/**
@@ -33,7 +35,7 @@ public interface ProductDao {
 	 * @Param:
 	 * @Return:int
 	 */
-	int decreaseProduct(@Param("id") Long id,@Param("count")Integer count,@Param("version") Integer version);
+	int decreaseProduct(@Param("id") Long id,@Param("count")Integer count);
 	/**
 	 * 插入数据
 	 * @Param:
@@ -71,4 +73,12 @@ public interface ProductDao {
 	 * @return
 	 */
 	int insertSeckill(GrabSimgleDto grabSimgleDto);
+
+	/**
+	 * 秒杀抢单
+	 * @param id
+	 * @param version
+	 * @return
+	 */
+	int seckill(@Param("id") Long id,@Param("version") Integer version);
 }

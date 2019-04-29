@@ -1,11 +1,11 @@
 package com.jxxy.mlxc.business.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.service.GrabSimgleService;
 import com.jxxy.mlxc.business.mapper.GrabSimgleDao;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description:秒杀
  * @Version: 1.0.0
  */
-@Service
-@Slf4j
+@Service(version="1.0.0",interfaceClass= GrabSimgleService.class)
+@Component
 @Transactional(rollbackFor=Exception.class)
 public class GrabSimgleServiceImpl implements GrabSimgleService {
     @Autowired

@@ -14,3 +14,5 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: false
+mlxc:
+  isSeckill: true

@@ -1,13 +1,10 @@
 package com.jxxy.mlxc.business.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.dto.PurchaseRecordDto;
-import com.jxxy.mlxc.business.api.dto.RecordsDto;
-import com.jxxy.mlxc.business.api.query.RecordsQuery;
-import com.jxxy.mlxc.business.api.service.RecordsService;
+import com.jxxy.mlxc.business.api.service.SeckillService;
 import com.jxxy.mlxc.business.config.PurchaseConfig;
 import com.jxxy.mlxc.business.mapper.ProductDao;
 import com.jxxy.mlxc.business.mapper.PurchaseRecordDao;
@@ -16,36 +13,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * @Project:mlxc-parent
- * @Class:PruchaseRecordServiceImpl
+ * @Class:SeckillServiceImpl
  * @author:zhouyangmin
- * @CreateTime:2019年03月26日21:50
- * @Description:订单业务
+ * @CreateTime:2019年04月29日13:31
+ * @Description:秒杀操作服务
  * @Version: 1.0.0
+ * 说明：插入秒杀库中，并不立即减少库存，确保秒杀库正常
+ * 存在的问题：秒杀商品数量，是否需要先从库存中减去
  */
-@Service(version="1.0.0",interfaceClass=RecordsService.class)
+@Service(version="1.0.0",interfaceClass= SeckillService.class)
 @Component
 @Transactional(rollbackFor=Exception.class)
-public class PruchaseRecordServiceImpl implements RecordsService {
+@Slf4j
+public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private ProductDao productDao;
     @Autowired
     private PurchaseRecordDao purchaseRecordDao;
     @Override
-    public PageInfo<RecordsDto> listRecords(RecordsQuery query) {
-        PageHelper.startPage(query.getPageNum(),query.getPageSize());
-        List<RecordsDto> list=purchaseRecordDao.listRecords(query);
-        return new PageInfo<>(list);
+    public int insertSeckill(GrabSimgleDto grabSimgleDto) {
+        if(productDao.getProduct(grabSimgleDto.getProductId()).getStock()<grabSimgleDto.getCount()){
+            return 0;
+        }
+        return productDao.insertSeckill(grabSimgleDto);
     }
 
     @Override
-    public boolean purchase(PurchaseRecordDto dto) {
+    public boolean sckkill(PurchaseRecordDto dto) {
         //乐观锁解决方案,缺陷，多次数据库io操作，性能开销较大
-        //检查用户有没有已经购买了
-       /* if(PurchaseConfig.getIsVerifyUser()&&purchaseRecordDao.countRecords(dto.getUserId(),dto.getProductId())>0){
+        //检查用户有没有已经抢购了
+        if(PurchaseConfig.getIsVerifyUser()&&purchaseRecordDao.countRecords(dto.getUserId(),dto.getProductId())>0){
             log.info("用户：{}，重复下单",dto.getUserId());
             return false;
         }
@@ -56,25 +55,17 @@ public class PruchaseRecordServiceImpl implements RecordsService {
             if(end-start>100)
                 return false;
             ProductDto productDto=productDao.getProduct(dto.getProductId());
-            if(productDto.getStock()<dto.getCount()){
+            if(productDto.getSeckillNum()<2||productDto.getStock()<2){
                 //库存不足
                 return false;
             }
             //减库存
-            int result=productDao.decreaseProduct(dto.getProductId(),dto.getCount(),productDto.getVersion());
+            int result=productDao.seckill(dto.getProductId(),productDto.getVersion());
             if(result==0)
                 continue;
             //插入购买记录
             purchaseRecordDao.insertPurchaseRecord(dto);
             return true;
-        }*/
-        return false;
-    }
-
-    @Override
-    public PageInfo<RecordsDto> showMyRecords(RecordsQuery query) {
-        PageHelper.startPage(query.getPageNum(),query.getPageSize());
-        List<RecordsDto> list=purchaseRecordDao.showMyRecords(query);
-        return new PageInfo<>(list);
+        }
     }
 }

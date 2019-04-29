@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @Project:mlxc-bussiness-service
@@ -22,6 +23,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @MapperScan(
 		basePackages="com.jxxy.mlxc",
 		sqlSessionFactoryRef="sqlSessionFactory")
+@EnableScheduling
 public class BusinessApplication {
 
 	/**

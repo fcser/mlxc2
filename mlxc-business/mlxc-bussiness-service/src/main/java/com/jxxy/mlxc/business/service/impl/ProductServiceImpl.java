@@ -1,13 +1,12 @@
 package com.jxxy.mlxc.business.service.impl;
 
-import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
 import com.jxxy.mlxc.business.api.service.ProductService;
 import com.jxxy.mlxc.business.mapper.ProductDao;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,8 +19,8 @@ import java.util.List;
  * @Description:商品服务类
  * @Version: 1.0.0
  */
-@Service
-@Slf4j
+@Service(version="1.0.0",interfaceClass= ProductService.class)
+@Component
 @Transactional(rollbackFor=Exception.class)
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -63,8 +62,4 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getProduct(id);
     }
 
-    @Override
-    public int insertSeckill(GrabSimgleDto grabSimgleDto) {
-        return productDao.insertSeckill(grabSimgleDto);
-    }
 }

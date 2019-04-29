@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AccessInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        //
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
         //允许客户端发送cookie，true表示接收
         response.setHeader("Access-Control-Allow-Credentials", "true");

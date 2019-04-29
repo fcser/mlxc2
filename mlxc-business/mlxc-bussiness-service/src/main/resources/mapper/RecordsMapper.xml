@@ -38,9 +38,10 @@
         left join users u on t.user_id=u.id
         where t.user_id=#{userId}
     </select>-->
+    <!--统计秒杀单-->
     <select id="countRecords" resultType="Integer">
         select count(t.id)
         from purchase_record t
-        where t.user_id=#{userId} and t.product_id=#{productId}
+        where t.user_id=#{userId} and t.product_id=#{productId} and t.is_seckill=1
     </select>
 </mapper>

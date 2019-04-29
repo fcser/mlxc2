@@ -35,7 +35,7 @@ public class SessionFilter extends UserFilter {
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("application/json");
 		log.info("please login again");
-		resp.setHeader("Access-Control-Allow-Origin", request1.getHeader("Origin"));
+		/*resp.setHeader("Access-Control-Allow-Origin", request1.getHeader("Origin"));
 		//允许客户端发送cookie，true表示接收
 		resp.setHeader("Access-Control-Allow-Credentials", "true");
 		resp.setHeader("P3P", "CP=CAO PSA OUR");
@@ -43,7 +43,7 @@ public class SessionFilter extends UserFilter {
 			resp.addHeader("Access-Control-Allow-Methods", "POST,GET,TRACE,OPTIONS,PUT,DELETE");
 			resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Origin,Accept");
 			resp.addHeader("Access-Control-Max-Age", "120");
-		}
+		}*/
 		resp.getWriter().print(JsonUtil.bean2json(brd));
 		return false;
 	}

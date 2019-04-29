@@ -76,7 +76,7 @@
 		where 1=1
 		<if test="name!=null and name!=''">
 			and t.name like concat('%',#{name},'%')
-	</if>
+		</if>
 		order by t.create_time desc
 	</select>
 
@@ -88,9 +88,13 @@
 		where t.id=#{id}
 	</select>
 
-	<!-- 减少库存,乐观锁-->
 	<update id="decreaseProduct">
-		update product set stock=stock-#{count},version=version+1
+		update product set stock=stock-#{count}
+		where id=#{id}
+	</update>
+	<!-- 减少库存,乐观锁-->
+	<update id="seckill">
+		update product set seckill_num=seckill_num-2,stock=stock-2,version=version+1
 		where id=#{id} and version=#{version}
 	</update>
  </mapper>

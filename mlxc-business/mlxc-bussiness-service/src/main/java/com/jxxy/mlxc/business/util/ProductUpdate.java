@@ -3,6 +3,7 @@ package com.jxxy.mlxc.business.util;
 import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.service.GrabSimgleService;
 import com.jxxy.mlxc.business.api.service.ProductService;
+import com.jxxy.mlxc.business.api.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,7 +28,7 @@ public class ProductUpdate {
     @Autowired
     private GrabSimgleService grabSimgleService;
     @Autowired
-    private ProductService productService;
+    private SeckillService seckillService;
     //每天上午十一点秒杀开始,更新秒杀数据库
     @Scheduled(cron="0 0 11 * * ?  ")
     public void insertSeckill(){
@@ -35,7 +36,7 @@ public class ProductUpdate {
         int n=0;
         GrabSimgleDto grabSimgleDto=grabSimgleService.getGrabSimgle();
         while(i<3&&n!=0){
-            n=productService.insertSeckill(grabSimgleDto);
+            n=seckillService.insertSeckill(grabSimgleDto);
             i++;
         }
     }

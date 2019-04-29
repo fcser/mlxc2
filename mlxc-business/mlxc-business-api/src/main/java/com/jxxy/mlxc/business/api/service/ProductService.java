@@ -64,10 +64,5 @@ public interface ProductService {
 	 */
 	ProductDto getProductById(Long id);
 
-	/**
-	 * 插入秒杀活动
-	 * @param grabSimgleDto
-	 * @return
-	 */
-	int insertSeckill(GrabSimgleDto grabSimgleDto);
+
 }

@@ -5,8 +5,8 @@ package com.jxxy.mlxc.business.mapper;
 
 import com.jxxy.mlxc.business.api.dto.PurchaseRecordDto;
 import com.jxxy.mlxc.business.api.dto.RecordsDto;
-import com.jxxy.mlxc.business.api.model.PurchaseRecordDO;
 import com.jxxy.mlxc.business.api.query.RecordsQuery;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.List;
  * @Version: 1.0.0 
  *
  */
+@Mapper
 public interface PurchaseRecordDao {
 
 	/**
