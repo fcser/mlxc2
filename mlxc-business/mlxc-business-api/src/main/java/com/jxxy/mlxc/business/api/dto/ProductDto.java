@@ -37,12 +37,9 @@ public class ProductDto extends BaseDto{
 	/**
 	 * 原价
 	 */
-	private Double price=0.0;
+	//private Double price=0.0;
 	private Double oldPrice;
-	/**
-	 * 折扣
-	 */
-	//private Integer discount=10;
+
 	private Double nowPrice;
 	/**
 	 * 订单量
@@ -50,4 +47,7 @@ public class ProductDto extends BaseDto{
 	private Integer num;
 
 	private Integer version;
+
+	private Double seckillPrice;
+	private Integer seckillNum;
 }

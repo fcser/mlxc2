@@ -5,6 +5,7 @@ package com.jxxy.mlxc.business.api.service;
 
 import java.util.List;
 
+import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
 
@@ -62,4 +63,11 @@ public interface ProductService {
 	 * @return
 	 */
 	ProductDto getProductById(Long id);
+
+	/**
+	 * 插入秒杀活动
+	 * @param grabSimgleDto
+	 * @return
+	 */
+	int insertSeckill(GrabSimgleDto grabSimgleDto);
 }

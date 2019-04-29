@@ -3,6 +3,7 @@
  */
 package com.jxxy.mlxc.business.mapper;
 
+import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
 import org.apache.ibatis.annotations.Param;
 
@@ -64,4 +65,10 @@ public interface ProductDao {
 	 */
 	List<ProductDto> listProduct(ProductQuery query);
 
+	/**
+	 * 更新抢单商品
+	 * @param grabSimgleDto
+	 * @return
+	 */
+	int insertSeckill(GrabSimgleDto grabSimgleDto);
 }

@@ -8,11 +8,13 @@
  		<result column="name" jdbcType="VARCHAR" property="name"/>
  		<result column="decription" jdbcType="VARCHAR" property="decription"/>
  		<result column="stock" jdbcType="INTEGER" property="stock"/>
-		<result column="price" jdbcType="DOUBLE" property="price"/>
+		<result column="price" jdbcType="DOUBLE" property="nowPrice"/>
  		<result column="old_price" jdbcType="DOUBLE" property="oldPrice"/>
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
 		<result column="version" jdbcType="INTEGER" property="version"/>
+		<result column="seckill_price" jdbcType="DOUBLE" property="seckillPrice"/>
+		<result column="seckill_num" jdbcType="INTEGER" property="seckillNum"/>
  	</resultMap>
 	<sql id="baseProduct">
 		t.id,
@@ -22,12 +24,17 @@
 		t.stock,
 		t.discount,
 		t.create_time,
-		t.update_time
+		t.update_time,
+		t.seckill_price,
+		t,seckill_num
 	</sql>
  	<insert id="insert" parameterType="com.jxxy.mlxc.business.api.dto.ProductDto" useGeneratedKeys="true" keyProperty="id">
 		insert into product(name,decription,stock,price,discount)
 		values (#{name},#{decription},#{stock},#{price},#{discount})
 	</insert>
+	<update id="insertSeckill" parameterType="com.jxxy.mlxc.business.api.dto.GrabSimgleDto">
+		update product set seckill_price=#{price},seckill_num=#{count} where id=#{productId}
+	</update>
 
 	<update id="update" parameterType="com.jxxy.mlxc.business.api.dto.ProductDto">
 		update product

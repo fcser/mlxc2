@@ -1,5 +1,6 @@
 package com.jxxy.mlxc.business.service.impl;
 
+import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
 import com.jxxy.mlxc.business.api.service.ProductService;
@@ -60,5 +61,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProductById(Long id) {
         return productDao.getProduct(id);
+    }
+
+    @Override
+    public int insertSeckill(GrabSimgleDto grabSimgleDto) {
+        return productDao.insertSeckill(grabSimgleDto);
     }
 }

@@ -19,7 +19,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  *
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class,scanBasePackages="com.jxxy.mlxc.business")
-@EnableAutoConfiguration
 @MapperScan(
 		basePackages="com.jxxy.mlxc",
 		sqlSessionFactoryRef="sqlSessionFactory")

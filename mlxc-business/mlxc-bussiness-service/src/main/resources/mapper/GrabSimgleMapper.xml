@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxxy.mlxc.business.mapper.GrabSimgleDao">
+    <resultMap id="grabSimgleMapper" type="com.jxxy.mlxc.business.api.dto.GrabSimgleDto">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="p_count" jdbcType="INTEGER" property="count"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.jxxy.mlxc.business.api.dto.GrabSimgleDto" useGeneratedKeys="true" keyProperty="id">
+        insert into grab_simgle(product_id,price,p_count) values(#{productId},#{price},#{count})
+    </insert>
+    <update id="update" parameterType="com.jxxy.mlxc.business.api.dto.GrabSimgleDto">
+        update grab_simgle set
+        <if test="price!=null">
+            price=#{price},
+        </if>
+        <if test="count!=null">
+            p_count=#{count},
+        </if>
+        <if test="use_flag!=null">
+            use_flag=#{useFlag},
+        </if>
+        update_time=NOW()
+    </update>
+    <select id="getGrabSimgle" resultMap="grabSimgleMapper">
+        select id,product_id,price,p_count from grab_simgle
+        where use_flag=0
+        order by create_time desc
+        limit 0,1
+    </select>
+</mapper>
