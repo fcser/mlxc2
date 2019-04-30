@@ -29,4 +29,6 @@ public interface SeckillService {
      * @return
      */
     boolean sckkill(PurchaseRecordDto purchaseRecordDto);
+
+
 }

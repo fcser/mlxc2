@@ -35,14 +35,15 @@ public class FilterByRate implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filter)
             throws IOException, ServletException {
+        HttpServletResponse resp=(HttpServletResponse)response;
         //System.out.println("com in filter");
         //每秒取出一个令牌访问，若10秒未能访问立即返回错误信息，非阻塞
         if(rateLimiter.tryAcquire(1,MAX_WAIT_TIME, TimeUnit.SECONDS)) {
             filter.doFilter(request, response);
         }else {
-            log.info("服务器拒绝了{}的访问",request.getRemoteAddr());
+            log.debug("服务器拒绝了{}的访问",request.getRemoteAddr());
             BaseReturnDto<Void> brd=new BaseReturnDto<>(ReturnCode.FAIL_SYSTEM.getCode(),"请求超时！");
-            response.getWriter().print(JsonUtil.bean2json(brd));
+            resp.getWriter().print(JsonUtil.bean2json(brd));
         }
     }
 

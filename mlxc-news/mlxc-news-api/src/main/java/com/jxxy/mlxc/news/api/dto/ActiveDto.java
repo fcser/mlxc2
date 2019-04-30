@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jxxy.mlxc.news.api.constant.IsCall;
 import com.mlxc.basic.dto.BaseDto;
 
@@ -38,6 +39,7 @@ public class ActiveDto extends BaseDto{
 	@NotBlank(message="活动必须绑定新闻")
 	private Long newsId;
 	private String place;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date time;
 	private String intro;
 	/**
@@ -52,4 +54,6 @@ public class ActiveDto extends BaseDto{
 	 * 是否启用电话提醒,默认0，不通知
 	 */
 	private Integer isCall= IsCall.NOTCALL.getType();
+
+	private Integer isEntryd=0;//0未报名，1已经报名
 }

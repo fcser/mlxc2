@@ -31,7 +31,7 @@
 		(#{entryUserId},#{activeId})
  	</insert>
  	<delete id="unEntry" parameterType="com.jxxy.mlxc.news.api.model.EntryDO">
- 		delete from entry t where t.entry_user_id=#{entryUserId} and t.active_id=#{activeId}
+ 		delete from entry where entry_user_id=#{entryUserId} and active_id=#{activeId}
  	</delete>
  	<!-- 1.根据活动查询出报名表
  	2.查询出该用户所报名的活动

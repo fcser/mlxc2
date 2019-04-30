@@ -2,6 +2,7 @@ package com.jxxy.mlxc.business.mapper;
 
 import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Project:mlxc-parent
@@ -30,4 +31,5 @@ public interface GrabSimgleDao {
      * @return
      */
     GrabSimgleDto getGrabSimgle();
+    boolean downSeckill(@Param("id") Long id, @Param("useFlag") Integer useFlag);
 }

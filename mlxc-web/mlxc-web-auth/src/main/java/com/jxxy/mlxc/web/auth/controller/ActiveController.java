@@ -35,7 +35,11 @@ public class ActiveController {
     @GetMapping("/acitive/get.do")
     @ResponseBody
     public Object getActive(@RequestParam("newsId") Long newsId){
-        return new BaseReturnDto<>(ReturnCode.SUCCESS,activeService.selectByNewsId(newsId));
+        ActiveDto dto=activeService.selectByNewsId(newsId);
+        if(entryService.isEntry(dto.getId(),AuthUtil.getUserId())){
+            dto.setIsEntryd(1);
+        }
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,dto);
     }
 
     /**
@@ -63,6 +67,7 @@ public class ActiveController {
         if(entryService.isEntry(entryDto.getActiveId(),entryDto.getEntryUserId())){
             //return new BaseReturnDto<>(ReturnCode.SUCCESS.getCode(),"你已报名");
             entryService.unEntry(entryDto);
+            return new BaseReturnDto<>(ReturnCode.SUCCESS.getCode(),"取消报名成功");
         }
         entryService.insert(entryDto);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);

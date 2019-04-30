@@ -1,5 +1,6 @@
 package com.jxxy.mlxc.web.auth.controller;
 
+import com.jxxy.mlxc.web.auth.config.PicProperties;
 import com.jxxy.mlxc.web.auth.util.ImageUtils;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
@@ -38,12 +39,14 @@ public class PictureController {
     @PostMapping("/compoundPic.do")
     @ResponseBody
     public Object compoundPicture(HttpServletRequest request, @RequestParam("picPath")String picPath) throws IOException {
-        String imgPath="D://img/";
+        String savePath= PicProperties.getPicPath();
+        String imgPath=PicProperties.getImgPath();
+        String ip=PicProperties.getLocalAddress();
         String path=null;
+        String returnPath=null;
         if(!new File(imgPath+picPath).exists()){
             return new BaseReturnDto<>(ReturnCode.FAIL_SYSTEM.getCode(),"服务器异常，图片消失");
         }
-        String savePath = request.getSession().getServletContext().getRealPath("/upload");
         MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
         // 获取multiRequest 中所有的文件名
         Iterator<String> iter = multiRequest.getFileNames();
@@ -57,7 +60,8 @@ public class PictureController {
                 String fileOrigName = file.getOriginalFilename();
                 int index = fileOrigName.lastIndexOf('.');
                 String end = fileOrigName.substring(index, fileOrigName.length());
-                path = savePath + "\\" + file.getOriginalFilename().substring(0, index) + "_" + time + end;
+                String fileName=file.getOriginalFilename().substring(0, index) + "_" + time + end;
+                path = savePath  + fileName;
                 // 上传
                 //file.transferTo(new File(path));
                 BufferedImage waterImg= ImageIO.read(file.getInputStream());
@@ -66,8 +70,9 @@ public class PictureController {
                 // 构建叠加层
                 BufferedImage buffImg = ImageUtils.watermark(img, waterImg, 100, 200, 1.0f);
                 newImageUtils.generateWaterFile(buffImg, path);
+                returnPath=ip+"/userimg/"+fileName;
             }
         }
-        return new BaseReturnDto<>(ReturnCode.SUCCESS,path);
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,returnPath);
     }
 }

@@ -45,30 +45,22 @@ public class PruchaseRecordServiceImpl implements RecordsService {
     public boolean purchase(PurchaseRecordDto dto) {
         //乐观锁解决方案,缺陷，多次数据库io操作，性能开销较大
         //检查用户有没有已经购买了
-       /* if(PurchaseConfig.getIsVerifyUser()&&purchaseRecordDao.countRecords(dto.getUserId(),dto.getProductId())>0){
-            log.info("用户：{}，重复下单",dto.getUserId());
-            return false;
-        }
         //下     单
         long start=System.currentTimeMillis();
-        while(true){
-            long end=System.currentTimeMillis();
-            if(end-start>100)
-                return false;
-            ProductDto productDto=productDao.getProduct(dto.getProductId());
-            if(productDto.getStock()<dto.getCount()){
-                //库存不足
-                return false;
-            }
-            //减库存
-            int result=productDao.decreaseProduct(dto.getProductId(),dto.getCount(),productDto.getVersion());
-            if(result==0)
-                continue;
-            //插入购买记录
-            purchaseRecordDao.insertPurchaseRecord(dto);
-            return true;
-        }*/
-        return false;
+        long end=System.currentTimeMillis();
+        if(end-start>100)
+            return false;
+        ProductDto productDto=productDao.getProduct(dto.getProductId());
+        if(productDto.getStock()<dto.getCount()){
+            //库存不足
+            return false;
+        }
+        //减库存
+        int result=productDao.decreaseProduct(dto.getProductId(),dto.getCount());
+
+        //插入购买记录
+        purchaseRecordDao.insertPurchaseRecord(dto);
+        return true;
     }
 
     @Override

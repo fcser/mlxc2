@@ -32,6 +32,12 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jxxy</groupId>
+			<artifactId>mlxc-business-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- google开源工具包，用来做限流处理 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>

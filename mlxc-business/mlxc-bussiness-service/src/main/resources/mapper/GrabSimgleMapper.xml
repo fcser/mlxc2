@@ -21,10 +21,14 @@
         <if test="count!=null">
             p_count=#{count},
         </if>
-        <if test="use_flag!=null">
+       <!-- <if test="use_flag!=null">
             use_flag=#{useFlag},
-        </if>
+        </if>-->
         update_time=NOW()
+        where id=#{id}
+    </update>
+    <update id="downSeckill">
+        update grab_simgle set use_flag=#{useFlag} where id=#{id}
     </update>
     <select id="getGrabSimgle" resultMap="grabSimgleMapper">
         select id,product_id,price,p_count from grab_simgle

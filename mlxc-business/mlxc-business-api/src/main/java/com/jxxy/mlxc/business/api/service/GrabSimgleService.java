@@ -29,4 +29,11 @@ public interface GrabSimgleService {
      * @return
      */
     GrabSimgleDto getGrabSimgle();
+    /**
+     * 关闭或开启抢单活动
+     * @param id
+     * @param useFlag
+     * @return
+     */
+    boolean downSeckill(Long id,Integer useFlag);
 }

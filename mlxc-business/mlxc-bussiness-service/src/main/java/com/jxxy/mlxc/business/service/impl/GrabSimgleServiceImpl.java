@@ -36,4 +36,9 @@ public class GrabSimgleServiceImpl implements GrabSimgleService {
     public GrabSimgleDto getGrabSimgle() {
         return grabSimgleDao.getGrabSimgle();
     }
+
+    @Override
+    public boolean downSeckill(Long id, Integer useFlag) {
+        return grabSimgleDao.downSeckill(id, useFlag);
+    }
 }

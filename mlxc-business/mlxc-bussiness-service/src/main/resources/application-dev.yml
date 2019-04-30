@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8083
 pagehelper:
   helper-dialect: mysql
   reasonable: true
@@ -8,13 +8,13 @@ pagehelper:
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   #mybatis扫描别名包，与注解@alias联用
-  #type-aliases-package: com.jxxy.mlxc.news.api.dto
+  type-aliases-package: com.jxxy.mlxc.business.api.dto
 spring:
   datasource:
     druid:
       url: jdbc:mysql://129.204.56.246:3306/mlxc?useUnicode=true&characterEncoding=UTF-8&generateSimpleParameterMetadata=true
       username: root
-      password: 123456
+      password: wbdheike
       driver-class-name: com.mysql.jdbc.Driver
       initial-size: 5
       max-active: 100
@@ -22,18 +22,16 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: false
+  application:
+    name: bussiness-server
   dubbo:
-    application:
-      name: business_server
+    server: true
+    registry:
+      #address: zookeeper://127.0.0.1:2181
+      address: zookeeper://172.16.0.8:2181?backup=172.16.0.8:2182,172.16.0.8:2183
     protocol:
       name: dubbo
-      port: 20101
-    registry:
-      address: zookeeper://127.0.0.1:2181
-    server: true
-    scan: com.jxxy.mlxc.business.service.impl
-    consumer:
-      check: false
+      port: 20880
   redis:
     jedis:
       pool:
@@ -43,7 +41,7 @@ spring:
         max-wait: 10
     port: 6379
     host: 129.204.56.246
-    password: 123456
+    password: zym123456
     timeout: 1000
   cache:
     type: REDIS
@@ -51,3 +49,4 @@ spring:
 mlxc:
   #不进行用户下单前检查
   isVerifyUser: false
+  isSeckill: true

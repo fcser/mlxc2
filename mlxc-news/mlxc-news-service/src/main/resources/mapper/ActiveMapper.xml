@@ -71,7 +71,7 @@
  		t.create_user_id,a.user_name,t.create_time,t.is_call
  		from active t
  		left join users a on t.create_user_id=a.id
- 		inner join news b on b.active_id=id
+ 		inner join news b on b.active_id=t.id
  		where b.id=#{id}
  	</select>
     <select id="selectActiveByTime" resultType="com.jxxy.mlxc.news.api.dto.ActiveUserDto" parameterType="String">

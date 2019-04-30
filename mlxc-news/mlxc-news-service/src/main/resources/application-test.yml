@@ -27,7 +27,7 @@ spring:
   dubbo:
     server: true
     registry:
-      address: zookeeper://129.204.56.246:2181?backup=129.204.56.246:2182,129.204.56.246:2183
+      address: zookeeper://127.0.0.1:2181
       #address: zookeeper://129.204.56.246:2081?backup=129.204.56.246:2082,129.204.56.246:2083
     protocol:
       name: dubbo

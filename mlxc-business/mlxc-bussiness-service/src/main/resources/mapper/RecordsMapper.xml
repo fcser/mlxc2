@@ -44,4 +44,11 @@
         from purchase_record t
         where t.user_id=#{userId} and t.product_id=#{productId} and t.is_seckill=1
     </select>
+    <select id="showMyRecords" parameterType="com.jxxy.mlxc.business.api.query.RecordsQuery" resultMap="RecordMap">
+        select t.id,t.user_id,u.user_name,t.product_id,p.name as product_name,t.price,t.sum,t.count,t.create_time,t.decription
+        from purchase_record t
+        left join product p on p.id=t.product_id
+        left join users u on t.user_id=u.id
+        where t.user_id=#{userId}
+    </select>
 </mapper>

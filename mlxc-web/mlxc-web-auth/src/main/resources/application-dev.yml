@@ -58,4 +58,7 @@ mlxc:
     businessFilter: /mlxc/manage/business/**
     noLoginUrl: /mlxc/noLogin.do
     noRoleUrl: /mlxc/noRoles.do
+  path:
+    picPath: /usr/local/nginx/vallage/userimg/
+    imgPath: /data/mlxc-server/mlxc-web/img/
     #isOpen: true

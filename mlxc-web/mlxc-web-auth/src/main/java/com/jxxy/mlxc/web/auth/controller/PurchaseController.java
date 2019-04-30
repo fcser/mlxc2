@@ -1,5 +1,9 @@
 package com.jxxy.mlxc.web.auth.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.jxxy.mlxc.business.api.dto.PurchaseRecordDto;
+import com.jxxy.mlxc.business.api.query.RecordsQuery;
+import com.jxxy.mlxc.business.api.service.RecordsService;
 import com.jxxy.mlxc.shiro.config.AuthUtil;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mlxc/desk")
 public class PurchaseController {
 
+    @Reference(version="1.0.0")
+    private RecordsService recordsService;
     /**
      * 抢单业务
      * @param productId
@@ -34,16 +40,13 @@ public class PurchaseController {
 
     /**
      * 购买门票
-     * @param productId
-     * @param num
      * @return
      */
     @PostMapping("/buy.do")
     @ResponseBody
-    public Object buy(@RequestParam("productId") Long productId,
-    @RequestParam("num")Integer num){
-        Long userId= AuthUtil.getUserId();
-        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+    public Object buy(@RequestBody PurchaseRecordDto purchaseRecordDto){
+        purchaseRecordDto.setUserId(AuthUtil.getUserId());
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,recordsService.purchase(purchaseRecordDto));
     }
 
     /**
@@ -52,8 +55,8 @@ public class PurchaseController {
      */
     @GetMapping("/myProduct.do")
     @ResponseBody
-    public Object myProduct(){
-        Long userId= AuthUtil.getUserId();
-        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+    public Object myProduct(@ModelAttribute RecordsQuery query){
+        query.setUserId( AuthUtil.getUserId());
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,recordsService.showMyRecords(query));
     }
 }
