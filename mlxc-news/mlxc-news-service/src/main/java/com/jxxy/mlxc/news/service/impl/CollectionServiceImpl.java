@@ -36,6 +36,11 @@ public class CollectionServiceImpl implements CollectionService{
     }
 
     @Override
+    public int countCollect(Long newsId) {
+        return collectionDAO.countCollect(newsId);
+    }
+
+    @Override
     public void collect(Long userId, Long newsId) {
         collectionDAO.insert(userId,newsId);
     }

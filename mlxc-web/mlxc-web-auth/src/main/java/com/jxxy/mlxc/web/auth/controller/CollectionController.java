@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.*;
  * @Version: 1.0.0
  */
 @Controller
-@RequestMapping("/mlxc/desk")
+@RequestMapping("/mlxc")
 public class CollectionController {
     @Reference(version = "1.0.0")
     private CollectionService collectionService;
-    @PostMapping("/collect.do")
+
+    @PostMapping("/desk/collect.do")
     @ResponseBody
     public Object collect(@RequestParam("newsId") Long newsId){
         Long userId= AuthUtil.getUserId();
@@ -33,10 +34,20 @@ public class CollectionController {
         collectionService.collect(userId,newsId);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
-    @GetMapping("/myCollection.do")
+    @GetMapping("/desk/myCollection.do")
     @ResponseBody
     public Object getMyCollect(@ModelAttribute CollectionQuery collectionQuery){
         collectionQuery.setUserId(AuthUtil.getUserId());
         return new BaseReturnDto<>(ReturnCode.SUCCESS,collectionService.getMyCollection(collectionQuery));
+    }
+    @GetMapping("/countCollection.do")
+    @ResponseBody
+    public Object countCollect(@RequestParam(value = "id",required = true)Long newsId){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,collectionService.countCollect(newsId));
+    }
+    @GetMapping("/desk/isCollection.do")
+    @ResponseBody
+    public Object isCollect(@RequestParam(value = "id",required = true)Long newsId){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,collectionService.isCollected(AuthUtil.getUserId(),newsId));
     }
 }

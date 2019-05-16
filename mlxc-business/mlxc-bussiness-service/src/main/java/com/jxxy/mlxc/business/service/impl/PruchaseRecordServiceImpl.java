@@ -57,7 +57,8 @@ public class PruchaseRecordServiceImpl implements RecordsService {
         }
         //减库存
         int result=productDao.decreaseProduct(dto.getProductId(),dto.getCount());
-
+        Double sum=dto.getPrice()*dto.getCount();
+        dto.setSum(sum);
         //插入购买记录
         purchaseRecordDao.insertPurchaseRecord(dto);
         return true;
@@ -67,6 +68,13 @@ public class PruchaseRecordServiceImpl implements RecordsService {
     public PageInfo<RecordsDto> showMyRecords(RecordsQuery query) {
         PageHelper.startPage(query.getPageNum(),query.getPageSize());
         List<RecordsDto> list=purchaseRecordDao.showMyRecords(query);
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public PageInfo<RecordsDto> showAllRecords(RecordsQuery query) {
+        PageHelper.startPage(query.getPageNum(),query.getPageSize());
+        List<RecordsDto> list=purchaseRecordDao.listRecords(query);
         return new PageInfo<>(list);
     }
 }

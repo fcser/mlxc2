@@ -51,6 +51,10 @@ public interface CommentDAO {
      */
     void updateGoods(Long id);
 
+    /**
+     * 不评论
+     * @param commentId
+     */
     void notReply(@Param("id") Long commentId);
     /**
      * 查看一级评论总数
@@ -79,4 +83,5 @@ public interface CommentDAO {
     List<MyCommentsDto> getMyComments(CommentQuery commentQuery);
 
 
+    int countMyComment(Long userId);
 }

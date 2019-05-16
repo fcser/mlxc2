@@ -40,4 +40,6 @@ public class RecordsQuery extends BaseQuery {
 	 * 产品id
 	 */
 	private Long productId;
+
+	private Integer useFlag;
 }

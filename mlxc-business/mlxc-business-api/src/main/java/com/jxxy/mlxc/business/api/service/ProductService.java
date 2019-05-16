@@ -5,6 +5,7 @@ package com.jxxy.mlxc.business.api.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.business.api.dto.GrabSimgleDto;
 import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
@@ -49,7 +50,7 @@ public interface ProductService {
 	 * @Param:
 	 * @Return:List<ProductDto>
 	 */
-	List<ProductDto> listProduct(ProductQuery query);
+	PageInfo<ProductDto> listProduct(ProductQuery query);
 	/**
 	 * 显示商品信息(取最近上传的一条商品)
 	 * @Param:

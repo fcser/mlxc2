@@ -81,10 +81,10 @@
         </if>
         <!--查询出作者给我回复的留言，父子留言join在一起，-->
         union (select t.news_id,n.title as new_title,t.id,t.content,t.create_time,u.user_name,t2.content as father_content
-        /*父留言*/
+        <!--父留言-->
         from comment t2
         left join comment_depend c on c.father_comment_id=t2.id
-        /*子留言，若父留言不为空，子留言的子留言为空，则说明这是条未回复的留言*/
+        <!--子留言，若父留言不为空，子留言的子留言为空，则说明这是条未回复的留言-->
         left join comment t on t.id=c.comment_id
         left join users u on u.id=t.comment_user_id
         left join news n on n.id=t.news_id
@@ -95,5 +95,28 @@
         </if>
         order by t.create_time desc
         )
+    </select>
+    <!--计算我未回复评论数量-->
+    <select id="countMyComment" resultType="java.lang.Integer">
+        SELECT SUM(cns) as num FROM(
+        select distinct count(t.id) as cns
+        from comment t
+        left join users u on u.id=t.comment_user_id
+        left join news n on n.id=t.news_id
+        left join comment_depend c on c.father_comment_id=t.id
+        where n.create_user_id=#{userId} and u.id!=#{userId} and c.comment_id is null and t.should_reply=0
+        <!--查询出作者给我回复的留言，父子留言join在一起，-->
+        union all
+        select count(t2.id) as cns
+        <!--父留言-->
+        from comment t2
+        left join comment_depend c on c.father_comment_id=t2.id
+        <!--子留言，若父留言不为空，子留言的子留言为空，则说明这是条未回复的留言-->
+        left join comment t on t.id=c.comment_id
+        left join users u on u.id=t.comment_user_id
+        left join news n on n.id=t.news_id
+        left join comment_depend c2 on c2.father_comment_id=t.id
+        where c.comment_id is not null and t2.comment_user_id=#{userId} and c2.comment_id is null and t.should_reply=0)
+        AS countdata
     </select>
 </mapper>

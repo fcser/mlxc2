@@ -16,4 +16,7 @@
         left join news n on t.news_id=n.id
         where t.collect_user_id=#{userId}
     </select>
+    <select id="countCollect" resultType="java.lang.Integer">
+        select count(t.id) from collection t where t.news_id=#{newsId}
+    </select>
 </mapper>

@@ -38,4 +38,11 @@ public interface CollectionDAO {
      * @return
      */
     List<CollectionDto> getMyCollect(Long userId);
+
+    /**
+     * 查询收藏数量
+     * @param newsId
+     * @return
+     */
+    int countCollect(Long newsId);
 }

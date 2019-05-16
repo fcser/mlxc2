@@ -50,4 +50,8 @@ public class ProductDto extends BaseDto{
 
 	private Double seckillPrice;
 	private Integer seckillNum;
+
+	private Long createUserId;
+
+	private Integer isSeckill;
 }

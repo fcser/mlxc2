@@ -38,7 +38,7 @@ public class PictureController {
 
     @PostMapping("/compoundPic.do")
     @ResponseBody
-    public Object compoundPicture(HttpServletRequest request, @RequestParam("picPath")String picPath) throws IOException {
+    public Object compoundPicture(HttpServletRequest request, @RequestParam(value = "picPath",required = false,defaultValue = "timg1.jpg")String picPath) throws IOException {
         String savePath= PicProperties.getPicPath();
         String imgPath=PicProperties.getImgPath();
         String ip=PicProperties.getLocalAddress();
@@ -58,6 +58,7 @@ public class PictureController {
                 SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
                 String time = df.format(day);
                 String fileOrigName = file.getOriginalFilename();
+                log.info("fileOrigName:{}",fileOrigName);
                 int index = fileOrigName.lastIndexOf('.');
                 String end = fileOrigName.substring(index, fileOrigName.length());
                 String fileName=file.getOriginalFilename().substring(0, index) + "_" + time + end;

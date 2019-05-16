@@ -4,14 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jxxy.mlxc.business.mapper.GrabSimgleDao">
     <resultMap id="grabSimgleMapper" type="com.jxxy.mlxc.business.api.dto.GrabSimgleDto">
-        <result column="id" jdbcType="BIGINT" property="id"/>
-        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="product_id" jdbcType="INTEGER" property="productId"/>
         <result column="price" jdbcType="DOUBLE" property="price"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
         <result column="p_count" jdbcType="INTEGER" property="count"/>
     </resultMap>
     <insert id="insert" parameterType="com.jxxy.mlxc.business.api.dto.GrabSimgleDto" useGeneratedKeys="true" keyProperty="id">
-        insert into grab_simgle(product_id,price,p_count) values(#{productId},#{price},#{count})
+        insert into grab_simgle(product_id,price,p_count,create_user_id) values(#{productId},#{price},#{count},#{createUserId})
     </insert>
     <update id="update" parameterType="com.jxxy.mlxc.business.api.dto.GrabSimgleDto">
         update grab_simgle set

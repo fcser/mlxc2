@@ -1,6 +1,8 @@
 package com.jxxy.mlxc.business.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.query.ProductQuery;
 import com.jxxy.mlxc.business.api.service.ProductService;
@@ -47,13 +49,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> listProduct(ProductQuery query) {
-        return productDao.listProduct(query);
+    public PageInfo<ProductDto> listProduct(ProductQuery query) {
+        PageHelper.startPage(query.getPageNum(),query.getPageSize());
+        List<ProductDto> list=productDao.listProduct(query);
+        return new PageInfo<>(list);
     }
 
     @Override
     public ProductDto showProduct() {
-        List<ProductDto> list=listProduct(null);
+        List<ProductDto> list=productDao.listProduct(null);
         return null==list&&list.size()>0?null:list.get(0);
     }
 

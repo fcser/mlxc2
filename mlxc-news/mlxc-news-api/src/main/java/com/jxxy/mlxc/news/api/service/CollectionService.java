@@ -22,6 +22,12 @@ public interface CollectionService {
     int isCollected(Long userId,Long newsId);
 
     /**
+     * 查看收藏数量
+     * @param newsId
+     * @return
+     */
+    int countCollect(Long newsId);
+    /**
      * 收藏文章
      * @param userId
      * @param newsId

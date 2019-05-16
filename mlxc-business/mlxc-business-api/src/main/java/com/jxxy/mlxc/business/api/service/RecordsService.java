@@ -40,4 +40,11 @@ public interface RecordsService {
 	 */
 	PageInfo<RecordsDto> showMyRecords(RecordsQuery query);
 
+	/**
+	 * 所有订单
+	 * @param query
+	 * @return
+	 */
+	PageInfo<RecordsDto> showAllRecords(RecordsQuery query);
+
 }

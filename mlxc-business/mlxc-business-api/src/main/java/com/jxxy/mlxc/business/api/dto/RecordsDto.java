@@ -53,4 +53,5 @@ public class RecordsDto extends BaseDto {
 	private Double sum;
 	private Integer useFlag;
 	private Date endDate;
+	private Integer isSeckill;
 }

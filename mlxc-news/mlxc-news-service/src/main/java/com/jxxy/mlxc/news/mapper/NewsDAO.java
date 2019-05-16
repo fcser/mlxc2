@@ -52,7 +52,7 @@ public interface NewsDAO extends BaseDAO<NewsDto> {
      * 更新点赞数量
      * @param newsId
      */
-	void updateGood(Long newsId);
+	void updateGood(@Param("newsId") Long newsId);
 	/**
 	 * 查询出最近的20条新闻，来重新建立缓存
 	 * @return

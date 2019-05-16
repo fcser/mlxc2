@@ -3,8 +3,11 @@ package com.jxxy.mlxc.web.auth.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 /**
  * @Project:mlxc-parent
@@ -41,13 +44,30 @@ public class PicProperties {
      * @return
      */
     public static String getLocalAddress(){
-        String ip = "";
-        try {
-            ip = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return ip;
+        return "129.204.56.246";
+        /*try{
+            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip = null;
+            Enumeration<InetAddress> addrs;
+            while (networks.hasMoreElements())
+            {
+                addrs = networks.nextElement().getInetAddresses();
+                while (addrs.hasMoreElements())
+                {
+                    ip = addrs.nextElement();
+                    if (ip != null
+                            && ip instanceof Inet4Address
+                            && ip.isSiteLocalAddress())
+                    {
+                        return ip.getHostAddress();
+                    }
+                }
+            }
+
+            // 如果没有外网IP，就返回内网IP
+            return "129.204.56.246";
+        } catch(Exception e){
+            throw new RuntimeException(e);
+        }*/
     }
 }

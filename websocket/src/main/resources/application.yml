@@ -1,14 +1,5 @@
 server:
-  port: 8082
-pagehelper:
-  helper-dialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
-mybatis:
-  mapper-locations: classpath*:mapper/*.xml
-  #mybatis扫描别名包，与注解@alias联用
-  #type-aliases-package: com.jxxy.mlxc.news.api.dto
+  port: 7788
 spring:
   datasource:
     druid:
@@ -23,13 +14,16 @@ spring:
       test-on-return: false
       test-while-idle: false
   application:
-    name: auth-server
+    name: web-server
   dubbo:
-    server: true
     registry:
-      #address: zookeeper://127.0.0.1:2181
       address: zookeeper://172.16.0.8:2181?backup=172.16.0.8:2182,172.16.0.8:2183
-    protocol:
+    consumer:
+      check: false
+    #负载均衡，轮询
+    reference:
+      loadbalance: roundrobin
+    protocal:
       name: dubbo
       port: 20881
   redis:
@@ -46,4 +40,3 @@ spring:
   cache:
     type: REDIS
     cache-names: redisCache
-

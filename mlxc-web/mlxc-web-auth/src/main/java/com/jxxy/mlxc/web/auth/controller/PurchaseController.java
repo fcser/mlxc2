@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @Version: 1.0.0
  */
 @Controller
-@RequestMapping("/mlxc/desk")
+@RequestMapping("/mlxc")
 public class PurchaseController {
 
     @Reference(version="1.0.0")
@@ -30,7 +30,7 @@ public class PurchaseController {
      * @param num 购买数量
      * @return
      */
-    @PostMapping("/grab.do")
+    @PostMapping("/desk/grab.do")
     @ResponseBody
     public Object grabASingle(@RequestParam("productId") Long productId,
                               @RequestParam("num")Integer num){
@@ -42,10 +42,11 @@ public class PurchaseController {
      * 购买门票
      * @return
      */
-    @PostMapping("/buy.do")
+    @PostMapping("/desk/buy.do")
     @ResponseBody
     public Object buy(@RequestBody PurchaseRecordDto purchaseRecordDto){
         purchaseRecordDto.setUserId(AuthUtil.getUserId());
+        purchaseRecordDto.setIsSeckill(0);
         return new BaseReturnDto<>(ReturnCode.SUCCESS,recordsService.purchase(purchaseRecordDto));
     }
 
@@ -53,10 +54,15 @@ public class PurchaseController {
      * 获取我的订单
      * @return
      */
-    @GetMapping("/myProduct.do")
+    @GetMapping("/desk/myProduct.do")
     @ResponseBody
     public Object myProduct(@ModelAttribute RecordsQuery query){
         query.setUserId( AuthUtil.getUserId());
         return new BaseReturnDto<>(ReturnCode.SUCCESS,recordsService.showMyRecords(query));
+    }
+    @GetMapping("/manage/business/records.do")
+    @ResponseBody
+    public Object getRecords(@ModelAttribute RecordsQuery query){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,recordsService.showAllRecords(query));
     }
 }

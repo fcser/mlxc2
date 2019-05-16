@@ -19,4 +19,5 @@ public class GrabSimgleDto extends BaseDto {
     private Double price;
     private Integer count;
     private Integer useFlag;
+    private Long createUserId;
 }

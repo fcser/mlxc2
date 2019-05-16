@@ -4,8 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jxxy.mlxc.business.mapper.PurchaseRecordDao">
     <resultMap id="RecordMap" type="com.jxxy.mlxc.business.api.dto.RecordsDto">
-        <result column="id" jdbcType="BIGINTG" property="id"/>
-        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="phone" jdbcType="VARCHAR" property="userPhone"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="product_id" jdbcType="BIGINT" property="productId"/>
         <result column="product_name" jdbcType="VARCHAR" property="productName"/>
@@ -16,19 +17,23 @@
         <result column="decription" jdbcType="VARCHAR" property="decription"/>
         <result column="use_flag" jdbcType="INTEGER" property="useFlag"/>
         <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="is_seckill" jdbcType="INTEGER" property="isSeckill"/>
     </resultMap>
     <insert id="insertPurchaseRecord" parameterType="com.jxxy.mlxc.business.api.dto.PurchaseRecordDto" useGeneratedKeys="true" keyProperty="id">
-        insert into purchase_record(user_id,product_id,price,sum,count,decription)
-        values (#{userId},#{productId},#{price},#{sum},#{count},#{decription})
+        insert into purchase_record(user_id,product_id,price,sum,count,decription,is_seckill)
+        values (#{userId},#{productId},#{price},#{sum},#{count},#{decription},#{isSeckill})
     </insert>
     <select id="listRecords" parameterType="com.jxxy.mlxc.business.api.query.RecordsQuery" resultMap="RecordMap">
-        select t.id,t.user_id,u.user_name,t.product_id,p.name as product_name,t.price,t.sum,t.count,t.create_time,t.decription
+        select t.id,t.user_id,u.phone,u.user_name,t.product_id,p.name as product_name,t.price,t.sum,t.count,t.create_time,t.decription,t.use_flag
         from purchase_record t
         left join product p on p.id=t.product_id
         left join users u on t.user_id=u.id
         where t.product_id=#{productId}
         <if test="userPhone!=null and userPhone!=''">
             and u.phone like concat('%',#{userPhone},'%')
+        </if>
+        <if test="useFlag!=null and (useFlag==1 or useFlag==0)">
+            and t.use_flag=#{useFlag}
         </if>
     </select>
     <!--<select id="RecordsQuery" parameterType="com.jxxy.mlxc.business.api.query.RecordsQuery" resultMap="RecordMap">
@@ -45,10 +50,13 @@
         where t.user_id=#{userId} and t.product_id=#{productId} and t.is_seckill=1
     </select>
     <select id="showMyRecords" parameterType="com.jxxy.mlxc.business.api.query.RecordsQuery" resultMap="RecordMap">
-        select t.id,t.user_id,u.user_name,t.product_id,p.name as product_name,t.price,t.sum,t.count,t.create_time,t.decription
+        select t.id,t.user_id,u.user_name,t.product_id,p.name as product_name,t.price,t.sum,t.count,t.create_time,t.decription,t.use_flag,t.create_time
         from purchase_record t
         left join product p on p.id=t.product_id
         left join users u on t.user_id=u.id
         where t.user_id=#{userId}
+        <if test="useFlag!=null and (useFlag==1 or useFlag==0)">
+            and t.use_flag=#{useFlag}
+        </if>
     </select>
 </mapper>

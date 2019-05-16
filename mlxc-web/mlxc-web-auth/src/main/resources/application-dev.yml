@@ -42,7 +42,7 @@ spring:
         max-wait: 10
     port: 6379
     host: 129.204.56.246
-    password: 123456
+    password: zym123456
     timeout: 1000
   cache:
     type: REDIS

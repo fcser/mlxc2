@@ -31,7 +31,7 @@ spring:
       #address: zookeeper://129.204.56.246:2081?backup=129.204.56.246:2082,129.204.56.246:2083
     protocol:
       name: dubbo
-      port: 20880
+      port: 20883
   redis:
     jedis:
       pool:

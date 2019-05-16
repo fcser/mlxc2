@@ -43,4 +43,5 @@ public class PurchaseRecordDto extends BaseDto {
 	private String decription;
 	private Integer useFlag;
 	private Date endDate;
+	private Integer isSeckill;
 }

@@ -58,4 +58,10 @@ public interface CommentService {
      */
     PageInfo<MyCommentsDto> getMyComments(CommentQuery commentQuery);
 
+    /**
+     * 获取我未处理的评论数
+     * @param userId
+     * @return
+     */
+    int myCommentNum(Long userId);
 }

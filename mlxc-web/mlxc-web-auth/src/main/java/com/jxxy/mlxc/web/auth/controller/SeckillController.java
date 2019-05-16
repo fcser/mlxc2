@@ -31,6 +31,8 @@ public class SeckillController {
     @PostMapping("/manage/business/addSeckill.do")
     @ResponseBody
     public Object add(@RequestBody GrabSimgleDto grabSimgleDto){
+        grabSimgleDto.setCreateUserId(AuthUtil.getUserId());
+        seckillService.add(grabSimgleDto);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
 
@@ -53,6 +55,10 @@ public class SeckillController {
     @ResponseBody
     public Object seckill(@RequestBody PurchaseRecordDto dto){
         dto.setUserId(AuthUtil.getUserId());
-        return new BaseReturnDto<>(ReturnCode.SUCCESS,seckillService.sckkill(dto));
+        if(seckillService.sckkill(dto)) {
+            return new BaseReturnDto<>(ReturnCode.SUCCESS);
+        }else{
+            return new BaseReturnDto<>(-1,"抱歉，商品已售完");
+        }
     }
 }

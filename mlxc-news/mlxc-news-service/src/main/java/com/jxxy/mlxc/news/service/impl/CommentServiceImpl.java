@@ -87,4 +87,9 @@ public class CommentServiceImpl implements CommentService {
         return new PageInfo<>(list);
     }
 
+    @Override
+    public int myCommentNum(Long userId) {
+        return commentDAO.countMyComment(userId);
+    }
+
 }

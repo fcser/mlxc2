@@ -48,6 +48,13 @@ public interface ProductDao {
 	 * @Return:void
 	 */
 	void update(ProductDto dto);
+
+	/**
+	 * 修改是否秒杀单标志位
+	 * @param id
+	 * @param isSeckill
+	 */
+	void updateSeckill(@Param("id")Long id,@Param("flag")Integer isSeckill);
 	/**
 	 * 删除数据
 	 * @Param:

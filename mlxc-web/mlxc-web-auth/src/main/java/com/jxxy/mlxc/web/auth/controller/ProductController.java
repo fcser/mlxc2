@@ -1,8 +1,12 @@
 package com.jxxy.mlxc.web.auth.controller;
 
 import com.jxxy.mlxc.business.api.dto.ProductDto;
+import com.jxxy.mlxc.business.api.query.ProductQuery;
+import com.jxxy.mlxc.business.api.service.ProductService;
+import com.jxxy.mlxc.shiro.config.AuthUtil;
 import com.mlxc.basic.constant.ReturnCode;
 import com.mlxc.basic.dto.BaseReturnDto;
+import jdk.nashorn.internal.ir.annotations.Reference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mlxc")
 @Controller
 public class ProductController {
+
+    @com.alibaba.dubbo.config.annotation.Reference(version = "1.0.0")
+    private ProductService productService;
     /**
      * 获取产品列表,主页只显示最新商品
      * @return
@@ -24,7 +31,7 @@ public class ProductController {
     @GetMapping("/productList.do")
     @ResponseBody
     public Object getProducts(){
-        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,productService.showProduct());
     }
 
     /**
@@ -35,7 +42,7 @@ public class ProductController {
     @GetMapping("/product.do")
     @ResponseBody
     public Object getProduct(@RequestParam("id")Long id) {
-        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,productService.getProductById(id));
     }
 
     /**
@@ -46,7 +53,8 @@ public class ProductController {
     @PostMapping("/manage/business/addProduct.do")
     @ResponseBody
     public Object add(@RequestBody ProductDto dto){
-        return new BaseReturnDto<>(ReturnCode.SUCCESS);
+        dto.setCreateUserId(AuthUtil.getUserId());
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,productService.add(dto));
     }
 
     /**
@@ -57,6 +65,7 @@ public class ProductController {
     @PostMapping("/manage/business/upProduct.do")
     @ResponseBody
     public Object update(@RequestBody ProductDto dto){
+        productService.update(dto);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
 
@@ -68,7 +77,13 @@ public class ProductController {
     @DeleteMapping("/manage/business/delProduct.do")
     @ResponseBody
     public Object del(@RequestParam("id")Long id){
+        productService.delete(id);
         return new BaseReturnDto<>(ReturnCode.SUCCESS);
     }
 
+    @GetMapping("/manage/business/list.do")
+    @ResponseBody
+    public Object listAll(@ModelAttribute ProductQuery query){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,productService.listProduct(query));
+    }
 }

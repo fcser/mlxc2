@@ -6,6 +6,7 @@ import com.jxxy.mlxc.business.api.dto.ProductDto;
 import com.jxxy.mlxc.business.api.dto.PurchaseRecordDto;
 import com.jxxy.mlxc.business.api.service.SeckillService;
 import com.jxxy.mlxc.business.config.PurchaseConfig;
+import com.jxxy.mlxc.business.mapper.GrabSimgleDao;
 import com.jxxy.mlxc.business.mapper.ProductDao;
 import com.jxxy.mlxc.business.mapper.PurchaseRecordDao;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,8 @@ public class SeckillServiceImpl implements SeckillService {
     private ProductDao productDao;
     @Autowired
     private PurchaseRecordDao purchaseRecordDao;
+    @Autowired
+    private GrabSimgleDao grabSimgleDao;
     @Override
     public int insertSeckill(GrabSimgleDto grabSimgleDto) {
         if(productDao.getProduct(grabSimgleDto.getProductId()).getStock()<grabSimgleDto.getCount()){
@@ -40,6 +43,10 @@ public class SeckillServiceImpl implements SeckillService {
         return productDao.insertSeckill(grabSimgleDto);
     }
 
+    public void add(GrabSimgleDto grabSimgleDto){
+        productDao.updateSeckill(grabSimgleDto.getProductId(),1);
+        grabSimgleDao.insert(grabSimgleDto);
+    }
     @Override
     public boolean sckkill(PurchaseRecordDto dto) {
         //乐观锁解决方案,缺陷，多次数据库io操作，性能开销较大
@@ -64,6 +71,9 @@ public class SeckillServiceImpl implements SeckillService {
             if(result==0)
                 continue;
             //插入购买记录
+            dto.setSum(dto.getPrice()*2);
+            dto.setIsSeckill(1);
+            dto.setCount(2);
             purchaseRecordDao.insertPurchaseRecord(dto);
             return true;
         }

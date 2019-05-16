@@ -133,7 +133,9 @@
     	<module>mlxc-shiro</module>
     	<module>mlxc-web</module>
 		<module>websocket</module>
-	</modules>
+        <module>mlxc-tjxt</module>
+
+    </modules>
 	<!--<build>
 		<plugins>
 			<plugin>

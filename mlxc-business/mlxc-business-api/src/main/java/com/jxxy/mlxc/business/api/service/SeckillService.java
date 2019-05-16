@@ -23,6 +23,12 @@ public interface SeckillService {
     int insertSeckill(GrabSimgleDto grabSimgleDto);
 
     /**
+     * 新增秒杀
+     * @param grabSimgleDto
+     * @return
+     */
+    void add(GrabSimgleDto grabSimgleDto);
+    /**
      * 抢单服务
      *
      * @param purchaseRecordDto

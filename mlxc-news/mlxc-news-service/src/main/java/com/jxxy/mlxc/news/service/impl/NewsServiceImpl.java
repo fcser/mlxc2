@@ -142,6 +142,7 @@ public class NewsServiceImpl implements NewsService {
 		return newsDAO.isGiveALike(userId,newsId);
 	}
 
+
 	@Override
 	public void giveALike(Long userId, Long newsId) {
         if(flag&&null!=userId&&userId!=0) {

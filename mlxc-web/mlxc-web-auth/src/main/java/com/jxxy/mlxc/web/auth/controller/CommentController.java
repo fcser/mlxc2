@@ -90,4 +90,13 @@ public class CommentController {
         commentQuery.setCreateUserId(AuthUtil.getUserId());
         return new BaseReturnDto<>(ReturnCode.SUCCESS,commentService.getMyComments(commentQuery));
     }
+    /**
+     * 获取与我相关的评论
+     * @return
+     */
+    @GetMapping("/desk/countMyComments.do")
+    @ResponseBody
+    public Object countMyComments(){
+        return new BaseReturnDto<>(ReturnCode.SUCCESS,commentService.myCommentNum(AuthUtil.getUserId()));
+    }
 }

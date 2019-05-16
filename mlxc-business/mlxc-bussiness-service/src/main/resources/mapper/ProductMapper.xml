@@ -4,7 +4,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.jxxy.mlxc.business.mapper.ProductDao">
  	<resultMap type="com.jxxy.mlxc.business.api.dto.ProductDto" id="ProductMap">
- 		<result column="id" jdbcType="BIGINT" property="id"/>
+ 		<result column="id" jdbcType="INTEGER" property="id"/>
  		<result column="name" jdbcType="VARCHAR" property="name"/>
  		<result column="decription" jdbcType="VARCHAR" property="decription"/>
  		<result column="stock" jdbcType="INTEGER" property="stock"/>
@@ -15,22 +15,26 @@
 		<result column="version" jdbcType="INTEGER" property="version"/>
 		<result column="seckill_price" jdbcType="DOUBLE" property="seckillPrice"/>
 		<result column="seckill_num" jdbcType="INTEGER" property="seckillNum"/>
+		<result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
+		<result column="is_seckill" jdbcType="INTEGER" property="isSeckill"/>
  	</resultMap>
 	<sql id="baseProduct">
-		t.id,
-		t.name,
-		t.decription,
-		t.price,
-		t.stock,
-		t.discount,
-		t.create_time,
-		t.update_time,
-		t.seckill_price,
-		t,seckill_num
+		id,
+		name,
+		decription,
+		price,
+		old_price,
+		stock,
+		create_time,
+		update_time,
+		seckill_price,
+		seckill_num,
+		create_user_id,
+		is_seckill
 	</sql>
  	<insert id="insert" parameterType="com.jxxy.mlxc.business.api.dto.ProductDto" useGeneratedKeys="true" keyProperty="id">
-		insert into product(name,decription,stock,price,discount)
-		values (#{name},#{decription},#{stock},#{price},#{discount})
+		insert into product(name,decription,stock,price,discount,create_user_id)
+		values (#{name},#{decription},#{stock},#{price},#{discount}.#{createUserId})
 	</insert>
 	<update id="insertSeckill" parameterType="com.jxxy.mlxc.business.api.dto.GrabSimgleDto">
 		update product set seckill_price=#{price},seckill_num=#{count} where id=#{productId}
@@ -39,21 +43,21 @@
 	<update id="update" parameterType="com.jxxy.mlxc.business.api.dto.ProductDto">
 		update product
 		set
-		<trim suffixOverrides=",">
+		<!--<trim suffixOverrides=",">-->
 			<if test="decription != null and decription != ''">
 				decription = #{decription, jdbcType=VARCHAR},
 			</if>
 			<if test="stock != null">
 				stock = #{stock},
 			</if>
-			<if test="price != null">
-				price=#{price}
+			<if test="nowPrice != null">
+				price=#{nowPrice},
 			</if>
-			<if test="discount != null">
-				dicount=#{discount}
+			<if test="oldPrice != null">
+				old_price=#{oldPrice},
 			</if>
 			update_time = NOW()
-		</trim>
+		<!--</trim>-->
 		WHERE
 		id = #{id}
 	</update>
@@ -72,20 +76,20 @@
 	<select id="listProduct" parameterType="com.jxxy.mlxc.business.api.query.ProductQuery" resultMap="ProductMap">
 		select
 		<include refid="baseProduct"/>
-		from product t
+		from product
 		where 1=1
 		<if test="name!=null and name!=''">
-			and t.name like concat('%',#{name},'%')
+			and name like concat('%',#{name},'%')
 		</if>
-		order by t.create_time desc
+		order by create_time desc
 	</select>
 
 	<select id="getProduct" parameterType="Long" resultMap="ProductMap">
 		select
-		t.version,
+		version,
 		<include refid="baseProduct"/>
-		from product t
-		where t.id=#{id}
+		from product
+		where id=#{id}
 	</select>
 
 	<update id="decreaseProduct">
@@ -97,4 +101,8 @@
 		update product set seckill_num=seckill_num-2,stock=stock-2,version=version+1
 		where id=#{id} and version=#{version}
 	</update>
- </mapper>
+	<update id="updateSeckill">
+		update product set is_seckill=#{flag}
+		where id=#{id}
+	</update>
+</mapper>
